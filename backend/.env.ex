@@ -1,7 +1,7 @@
 PORT=5000
 NODE_ENV=development
-MONGO_URI=
-JWT_SECRET=
+MONGO_URI=mongodb+srv://root:root@saree.l9fh4dg.mongodb.net/?appName=Saree
+JWT_SECRET=supersecretkey123
 RAZORPAY_KEY_ID=
 RAZORPAY_KEY_SECRET=
 CLOUDINARY_CLOUD_NAME=
