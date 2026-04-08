@@ -2,7 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Products from "../pages/Products";
 import Login from "../pages/Login";
-import Register from "../pages/Register";   // ✅ add this
+import Register from "../pages/Register";
+import ProductDetails from "../pages/ProductDetails";
+import Cart from "../pages/Cart";
 import NotFound from "../pages/NotFound";
 
 export default function AppRoutes() {
@@ -11,8 +13,10 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />  {/* ✅ add this */}
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
