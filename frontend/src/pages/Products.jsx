@@ -1,12 +1,23 @@
-import MainLayout from "../layouts/MainLayout";
+import { useEffect, useState } from "react";
 
 export default function Products() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/products")
+      .then(res => res.json())
+      .then(data => setProducts(data.products));
+  }, []);
+
   return (
-    <MainLayout>
-      <h1 className="text-2xl font-bold">Products</h1>
-      <p className="mt-4 text-gray-600">
-        Product listing will be added here.
-      </p>
-    </MainLayout>
+    <div className="p-6 grid grid-cols-3 gap-4">
+      {products.map(p => (
+        <div key={p._id} className="border p-4">
+          <img src={p.image} alt={p.name} className="h-40 w-full object-cover" />
+          <h2 className="font-bold">{p.name}</h2>
+          <p>₹{p.price}</p>
+        </div>
+      ))}
+    </div>
   );
 }
