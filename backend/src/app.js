@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import notFound from "./middleware/notFound.js";
 import errorHandler from "./middleware/errorMiddleware.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.get("/api/health", (req, res) => {
     message: "Backend is running"
   });
 });
+
+app.use("/api/auth", authRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
