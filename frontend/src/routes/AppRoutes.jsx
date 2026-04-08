@@ -7,6 +7,8 @@ import ProductDetails from "../pages/ProductDetails";
 import Cart from "../pages/Cart";
 import NotFound from "../pages/NotFound";
 
+import Checkout from "../pages/Checkout"; 
+
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -18,6 +20,8 @@ export default function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/checkout" element={<Checkout />} />
+
       </Routes>
     </BrowserRouter>
   );
