@@ -6,6 +6,8 @@ import notFound from "./middleware/notFound.js";
 import errorHandler from "./middleware/errorMiddleware.js";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+
 const app = express();
 
 app.use(helmet());
@@ -26,5 +28,7 @@ app.use("/api/auth", authRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
+app.use("/api/orders", orderRoutes);
+
 
 export default app;
