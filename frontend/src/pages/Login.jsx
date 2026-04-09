@@ -1,10 +1,7 @@
 import { useState } from "react";
 
 export default function Login() {
-  const [form, setForm] = useState({
-    email: "",
-    password: ""
-  });
+  const [form, setForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -13,16 +10,19 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:5000/api/auth/login", {
+    const res = await fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)
     });
 
-    const data = await response.json();
-    console.log(data);
+    const data = await res.json();
+
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+    }
+
     alert(data.message);
   };
 
