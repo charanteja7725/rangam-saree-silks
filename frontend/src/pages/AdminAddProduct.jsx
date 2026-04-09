@@ -5,47 +5,47 @@ export default function AdminAddProduct() {
     name: "",
     price: "",
     description: "",
-    image: "",
     category: "",
     stock: ""
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const [image, setImage] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
 
+    const formData = new FormData();
+    Object.keys(form).forEach(key => {
+      formData.append(key, form[key]);
+    });
+    formData.append("image", image);
+
     const res = await fetch("http://localhost:5000/api/products", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({
-        ...form,
-        price: Number(form.price),
-        stock: Number(form.stock)
-      })
+      body: formData
     });
 
     const data = await res.json();
-    alert(data.message || "Product added");
+    alert("Product added!");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-md space-y-4 p-6">
-      <h1 className="text-2xl font-bold">Admin Add Product</h1>
-      <input className="w-full border p-2" name="name" placeholder="Name" onChange={handleChange} />
-      <input className="w-full border p-2" name="price" placeholder="Price" onChange={handleChange} />
-      <input className="w-full border p-2" name="description" placeholder="Description" onChange={handleChange} />
-      <input className="w-full border p-2" name="image" placeholder="Image URL" onChange={handleChange} />
-      <input className="w-full border p-2" name="category" placeholder="Category" onChange={handleChange} />
-      <input className="w-full border p-2" name="stock" placeholder="Stock" onChange={handleChange} />
-      <button className="bg-black px-4 py-2 text-white">Add Product</button>
+    <form onSubmit={handleSubmit}>
+      <input name="name" placeholder="Name" onChange={(e)=>setForm({...form,name:e.target.value})} />
+      <input name="price" placeholder="Price" onChange={(e)=>setForm({...form,price:e.target.value})} />
+      <input name="description" placeholder="Description" onChange={(e)=>setForm({...form,description:e.target.value})} />
+      <input name="category" placeholder="Category" onChange={(e)=>setForm({...form,category:e.target.value})} />
+      <input name="stock" placeholder="Stock" onChange={(e)=>setForm({...form,stock:e.target.value})} />
+
+      {/* IMAGE INPUT */}
+      <input type="file" onChange={(e)=>setImage(e.target.files[0])} />
+
+      <button>Add Product</button>
     </form>
   );
 }
