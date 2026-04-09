@@ -6,6 +6,8 @@ import Register from "../pages/Register";
 import ProductDetails from "../pages/ProductDetails";
 import Cart from "../pages/Cart";
 import NotFound from "../pages/NotFound";
+import AdminAddProduct from "../pages/AdminAddProduct";
+
 
 import Checkout from "../pages/Checkout"; 
 
@@ -21,6 +23,8 @@ export default function AppRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/admin/add-product" element={<AdminAddProduct />} />
+
 
       </Routes>
     </BrowserRouter>
