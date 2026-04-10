@@ -7,6 +7,7 @@ import ProductDetails from "../pages/ProductDetails";
 import Cart from "../pages/Cart";
 import NotFound from "../pages/NotFound";
 import AdminAddProduct from "../pages/AdminAddProduct";
+import OrderHistory from "./pages/OrderHistory.jsx";
 
 
 import Checkout from "../pages/Checkout"; 
