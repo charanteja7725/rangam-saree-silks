@@ -4,10 +4,10 @@ import cloudinary from "../config/cloudinary.js";
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: "products",
-    allowed_formats: ["jpg", "png", "jpeg"]
-  }
+  params: async (req, file) => ({
+    folder: "rangam-products",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"]
+  })
 });
 
 const upload = multer({ storage });
