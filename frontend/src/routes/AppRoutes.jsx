@@ -24,6 +24,7 @@ export default function AppRoutes() {
         <Route path="*" element={<NotFound />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/admin/add-product" element={<AdminAddProduct />} />
+        <Route path="/orders" element={<OrderHistory />} />
 
 
       </Routes>
