@@ -13,32 +13,89 @@ export default function Checkout() {
   });
 
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const totalPrice = cart.reduce((sum, item) => sum + Number(item.price), 0);
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + Number(item.price) * (item.quantity || 1),
+    0
+  );
 
-  const placeOrder = async () => {
-    if (!form.address || !form.city || !form.pincode || !form.phone) {
-      alert("Please fill all fields");
-      return;
-    }
+  const loadPayment = async () => {
+    try {
+      if (!form.address || !form.city || !form.pincode || !form.phone) {
+        alert("Please fill all fields");
+        return;
+      }
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/orders`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    items: cart,
-    totalPrice,
-    ...form
-  })
-});
+      if (!window.Razorpay) {
+        alert("Razorpay SDK failed to load");
+        return;
+      }
 
-    const data = await res.json();
+      const orderRes = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/payment/create-order`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: totalPrice })
+        }
+      );
 
-    if (data.success) {
-      alert("Order placed successfully!");
-      localStorage.removeItem("cart");
-      navigate("/products");
-    } else {
-      alert(data.message || "Failed to place order");
+      const order = await orderRes.json();
+      console.log("Razorpay order:", order);
+
+      if (!orderRes.ok || !order.id) {
+        alert(order.message || "Failed to create Razorpay order");
+        return;
+      }
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Rangam Saree Silks",
+        description: "Order Payment",
+        order_id: order.id,
+        handler: async function (response) {
+          try {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/orders`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                items: cart,
+                totalPrice,
+                ...form,
+                paymentId: response.razorpay_payment_id,
+                razorpayOrderId: response.razorpay_order_id
+              })
+            });
+
+            const data = await res.json();
+            console.log("Order save response:", data);
+
+            if (data.success) {
+              alert("Payment successful and order placed!");
+              localStorage.removeItem("cart");
+              navigate("/products");
+            } else {
+              alert(data.message || "Payment done, but order save failed");
+            }
+          } catch (error) {
+            console.error(error);
+            alert("Payment succeeded, but saving order failed");
+          }
+        },
+        prefill: {
+          contact: form.phone
+        },
+        theme: {
+          color: "#7a1f3d"
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong");
     }
   };
 
@@ -64,21 +121,18 @@ export default function Checkout() {
                 value={form.address}
                 onChange={(e) => setForm({ ...form, address: e.target.value })}
               />
-
               <input
                 className="w-full rounded-xl border border-[#e7d8c7] px-4 py-3 outline-none focus:border-[#b88917]"
                 placeholder="City"
                 value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
               />
-
               <input
                 className="w-full rounded-xl border border-[#e7d8c7] px-4 py-3 outline-none focus:border-[#b88917]"
                 placeholder="Pincode"
                 value={form.pincode}
                 onChange={(e) => setForm({ ...form, pincode: e.target.value })}
               />
-
               <input
                 className="w-full rounded-xl border border-[#e7d8c7] px-4 py-3 outline-none focus:border-[#b88917]"
                 placeholder="Phone"
@@ -93,7 +147,7 @@ export default function Checkout() {
               Order Summary
             </h2>
 
-            <div className="mb-4 flex items-center justify-between text-[#5c4033]">
+            <div className="mb-4 flex items-center justify-between">
               <span>Total Items</span>
               <span>{cart.length}</span>
             </div>
@@ -104,10 +158,10 @@ export default function Checkout() {
             </div>
 
             <button
-              onClick={placeOrder}
+              onClick={loadPayment}
               className="w-full rounded bg-[#7a1f3d] px-4 py-3 text-white transition hover:bg-[#5f1730]"
             >
-              Place Order
+              Pay with Razorpay
             </button>
           </div>
         </div>
