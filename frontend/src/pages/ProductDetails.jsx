@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -12,32 +13,66 @@ export default function ProductDetails() {
       .then((data) => setProduct(data.product));
   }, [id]);
 
-  const addToCart = () => {
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    existingCart.push(product);
-    localStorage.setItem("cart", JSON.stringify(existingCart));
-    navigate("/cart");
-  };
+ const addToCart = () => {
+  const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+  existingCart.push({ ...product, quantity: 1 });
+  localStorage.setItem("cart", JSON.stringify(existingCart));
+  navigate("/cart");
+};
 
-  if (!product) return <p className="p-6">Loading...</p>;
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
+        <Navbar />
+        <p className="px-6 py-10 text-lg">Loading...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="grid grid-cols-1 gap-8 p-6 md:grid-cols-2">
-      <img src={product.image} alt={product.name} className="w-full rounded" />
+    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
+      <Navbar />
 
-      <div>
-        <h1 className="text-3xl font-bold">{product.name}</h1>
-        <p className="mt-2 text-xl text-gray-700">₹{product.price}</p>
-        <p className="mt-4">{product.description}</p>
-        <p className="mt-2">Category: {product.category}</p>
-        <p className="mt-2">Stock: {product.stock}</p>
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-10 md:grid-cols-2">
+        <div className="overflow-hidden rounded-2xl bg-white shadow-md">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-full w-full object-cover"
+          />
+        </div>
 
-        <button
-          onClick={addToCart}
-          className="mt-6 rounded bg-black px-5 py-3 text-white"
-        >
-          Add to Cart
-        </button>
+        <div className="rounded-2xl bg-white p-8 shadow-md">
+          <p className="mb-2 text-sm uppercase tracking-[0.25em] text-[#b88917]">
+            Premium Collection
+          </p>
+
+          <h1 className="brand-font text-5xl font-bold text-[#7a1f3d]">
+            {product.name}
+          </h1>
+
+          <p className="mt-4 text-3xl font-bold text-[#b88917]">₹{product.price}</p>
+
+          <p className="mt-6 leading-7 text-[#5c4033]">
+            {product.description}
+          </p>
+
+          <div className="mt-6 space-y-2 text-[#4b2e2e]">
+            <p>
+              <span className="font-semibold">Category:</span> {product.category}
+            </p>
+            <p>
+              <span className="font-semibold">Stock:</span> {product.stock}
+            </p>
+          </div>
+
+          <button
+            onClick={addToCart}
+            className="mt-8 rounded bg-[#7a1f3d] px-6 py-3 text-white transition hover:bg-[#5f1730]"
+          >
+            Add to Cart
+          </button>
+        </div>
       </div>
     </div>
   );
