@@ -34,13 +34,13 @@ export default function AdminAddProduct() {
       formData.append("image", image);
     }
 
-    const res = await fetch("http://localhost:5000/api/products", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      body: formData
-    });
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products`, {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${token}`
+  },
+  body: formData
+});
 
     const data = await res.json();
 

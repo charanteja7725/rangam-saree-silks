@@ -3,8 +3,9 @@ import Product from "../models/Product.js";
 export const createProduct = async (req, res) => {
   try {
     const { name, price, description, category, stock } = req.body;
-
+    
     const image = req.file?.path || ""; // Cloudinary URL
+    console.log(image,"9999999999999999999")
 
     const product = await Product.create({
       name,
