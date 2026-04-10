@@ -16,7 +16,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+
+app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
 app.use("/api/payment", paymentRoutes);
 
 app.get("/api/health", (req, res) => {
@@ -26,11 +29,7 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.use("/api/auth", authRoutes);
-
 app.use(notFound);
 app.use(errorHandler);
-app.use("/api/orders", orderRoutes);
-
 
 export default app;
