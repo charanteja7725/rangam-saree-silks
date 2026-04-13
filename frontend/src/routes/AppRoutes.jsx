@@ -20,7 +20,7 @@ export default function AppRoutes() {
         <Route path="/products" element={<Products />} />
 
         {/* ✅ Product Details Route */}
-        <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
 
         <Route path="/cart" element={<Cart />} />
 
