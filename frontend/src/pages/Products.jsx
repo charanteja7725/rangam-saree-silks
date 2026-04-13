@@ -34,7 +34,7 @@ export default function Products() {
                 <h2 className="mb-2 text-xl font-semibold text-[#4b2e2e]">{p.name}</h2>
                 <p className="mb-4 text-lg font-bold text-[#b88917]">₹{p.price}</p>
 
-                <Link to={`/products/${product._id}`}>View Details</Link>
+                <Link to={`/product/${product._id}`}>View Details</Link>
               </div>
             </div>
           ))}
