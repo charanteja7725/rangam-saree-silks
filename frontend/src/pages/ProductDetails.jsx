@@ -8,17 +8,18 @@ export default function ProductDetails() {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-   fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
       .then((res) => res.json())
-      .then((data) => setProduct(data.product));
+      .then((data) => setProduct(data.product))
+      .catch((err) => console.log(err));
   }, [id]);
 
- const addToCart = () => {
-  const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-  existingCart.push({ ...product, quantity: 1 });
-  localStorage.setItem("cart", JSON.stringify(existingCart));
-  navigate("/cart");
-};
+  const addToCart = () => {
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    existingCart.push({ ...product, quantity: 1 });
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    navigate("/cart");
+  };
 
   if (!product) {
     return (
@@ -51,7 +52,9 @@ export default function ProductDetails() {
             {product.name}
           </h1>
 
-          <p className="mt-4 text-3xl font-bold text-[#b88917]">₹{product.price}</p>
+          <p className="mt-4 text-3xl font-bold text-[#b88917]">
+            ₹{product.price}
+          </p>
 
           <p className="mt-6 leading-7 text-[#5c4033]">
             {product.description}
