@@ -34,12 +34,7 @@ export default function Products() {
                 <h2 className="mb-2 text-xl font-semibold text-[#4b2e2e]">{p.name}</h2>
                 <p className="mb-4 text-lg font-bold text-[#b88917]">₹{p.price}</p>
 
-                <Link
-                  to={`/product/${p._id}`}
-                  className="inline-block rounded bg-[#7a1f3d] px-4 py-2 text-white transition hover:bg-[#5f1730]"
-                >
-                  View Details
-                </Link>
+                <Link to={`/products/${product._id}`}>View Details</Link>
               </div>
             </div>
           ))}
