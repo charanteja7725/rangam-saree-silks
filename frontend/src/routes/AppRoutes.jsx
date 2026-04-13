@@ -36,6 +36,7 @@ export default function AppRoutes() {
         <Route path="/admin/add-product" element={<AdminAddProduct />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/admin/products" element={<AdminProducts />} />
+        <Route path="/admin/edit-product/:id" element={<AdminEditProduct />} />
       </Routes>
     </Router>
   );
