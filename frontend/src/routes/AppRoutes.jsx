@@ -9,6 +9,7 @@ import OrderHistory from "../pages/OrderHistory";
 import ProductDetails from "../pages/ProductDetails";
 import NotFound from "../pages/NotFound";
 import AdminAddProduct from "../pages/AdminAddProduct";
+import AdminProducts from "../pages/AdminProducts";
 
 export default function AppRoutes() {
   const isLoggedIn = localStorage.getItem("token");
@@ -34,6 +35,7 @@ export default function AppRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/admin/add-product" element={<AdminAddProduct />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/admin/products" element={<AdminProducts />} />
       </Routes>
     </Router>
   );

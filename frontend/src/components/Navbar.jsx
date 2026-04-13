@@ -24,6 +24,11 @@ export default function Navbar() {
         {token ? (
           <>
             <Link to="/orders">My Orders</Link>
+
+            {/* ✅ ADMIN LINKS */}
+            <Link to="/admin/add-product">Add Product</Link>
+            <Link to="/admin/products">Manage Products</Link>
+
             <button
               onClick={handleLogout}
               className="bg-white text-[#7a1f3d] px-3 py-1 rounded"
