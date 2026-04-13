@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Products from "./pages/Products";
-import Cart from "./pages/Cart";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Checkout from "./pages/Checkout";
-import OrderHistory from "./pages/OrderHistory";
+import Home from "../pages/Home";
+import Products from "../pages/Products";
+import Cart from "../pages/Cart";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import Checkout from "../pages/Checkout";
+import OrderHistory from "../pages/OrderHistory";
 
 export default function AppRoutes() {
   const isLoggedIn = localStorage.getItem("token");
