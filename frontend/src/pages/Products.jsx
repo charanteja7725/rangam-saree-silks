@@ -6,7 +6,7 @@ export default function Products() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-   fetch(`${import.meta.env.VITE_API_URL}/api/products`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data.products || []));
   }, []);
@@ -16,7 +16,9 @@ export default function Products() {
       <Navbar />
 
       <div className="mx-auto max-w-7xl px-6 py-10">
-        <h1 className="mb-8 text-4xl font-bold text-[#7a1f3d]">Our Sarees</h1>
+        <h1 className="mb-8 text-4xl font-bold text-[#7a1f3d]">
+          Our Sarees
+        </h1>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
           {products.map((p) => (
@@ -31,10 +33,15 @@ export default function Products() {
               />
 
               <div className="p-5">
-                <h2 className="mb-2 text-xl font-semibold text-[#4b2e2e]">{p.name}</h2>
-                <p className="mb-4 text-lg font-bold text-[#b88917]">₹{p.price}</p>
+                <h2 className="mb-2 text-xl font-semibold text-[#4b2e2e]">
+                  {p.name}
+                </h2>
+                <p className="mb-4 text-lg font-bold text-[#b88917]">
+                  ₹{p.price}
+                </p>
 
-                <Link to={`/product/${product._id}`}>View Details</Link>
+                {/* ✅ FIXED HERE */}
+                <Link to={`/product/${p._id}`}>View Details</Link>
               </div>
             </div>
           ))}
