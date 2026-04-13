@@ -15,11 +15,16 @@ import AdminProducts from "../pages/AdminProducts";
 import AdminEditProduct from "../pages/AdminEditProduct";
 
 export default function AppRoutes() {
-  const isLoggedIn = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const isLoggedIn = token;
+  const isAdmin = user?.isAdmin;
 
   return (
     <Router>
       <Routes>
+        {/* Public */}
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
@@ -39,20 +44,21 @@ export default function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ✅ Protected admin routes */}
+        {/* ✅ Admin-only routes */}
         <Route
           path="/admin/add-product"
-          element={isLoggedIn ? <AdminAddProduct /> : <Login />}
+          element={isAdmin ? <AdminAddProduct /> : <Login />}
         />
         <Route
           path="/admin/products"
-          element={isLoggedIn ? <AdminProducts /> : <Login />}
+          element={isAdmin ? <AdminProducts /> : <Login />}
         />
         <Route
           path="/admin/edit-product/:id"
-          element={isLoggedIn ? <AdminEditProduct /> : <Login />}
+          element={isAdmin ? <AdminEditProduct /> : <Login />}
         />
 
+        {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
