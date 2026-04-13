@@ -12,7 +12,7 @@ import NotFound from "../pages/NotFound";
 
 import AdminAddProduct from "../pages/AdminAddProduct";
 import AdminProducts from "../pages/AdminProducts";
-import AdminEditProduct from "../pages/AdminEditProduct"; // ✅ important
+import AdminEditProduct from "../pages/AdminEditProduct";
 
 export default function AppRoutes() {
   const isLoggedIn = localStorage.getItem("token");
@@ -25,6 +25,7 @@ export default function AppRoutes() {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
 
+        {/* Protected user routes */}
         <Route
           path="/checkout"
           element={isLoggedIn ? <Checkout /> : <Login />}
@@ -34,12 +35,23 @@ export default function AppRoutes() {
           element={isLoggedIn ? <OrderHistory /> : <Login />}
         />
 
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/admin/add-product" element={<AdminAddProduct />} />
-        <Route path="/admin/products" element={<AdminProducts />} />
-        <Route path="/admin/edit-product/:id" element={<AdminEditProduct />} />
+        {/* ✅ Protected admin routes */}
+        <Route
+          path="/admin/add-product"
+          element={isLoggedIn ? <AdminAddProduct /> : <Login />}
+        />
+        <Route
+          path="/admin/products"
+          element={isLoggedIn ? <AdminProducts /> : <Login />}
+        />
+        <Route
+          path="/admin/edit-product/:id"
+          element={isLoggedIn ? <AdminEditProduct /> : <Login />}
+        />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
