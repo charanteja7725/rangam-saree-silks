@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 export default function AdminProducts() {
@@ -25,7 +26,7 @@ export default function AdminProducts() {
 
     if (res.ok) {
       alert("Product deleted successfully");
-      fetchProducts(); // refresh list
+      fetchProducts();
     } else {
       alert(data.message || "Failed to delete product");
     }
@@ -73,13 +74,21 @@ export default function AdminProducts() {
                     Stock: {p.stock}
                   </p>
 
-                  {/* ✅ DELETE BUTTON */}
-                  <button
-                    onClick={() => handleDelete(p._id)}
-                    className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-                  >
-                    Delete
-                  </button>
+                  <div className="flex gap-3">
+                    <Link
+                      to={`/admin/edit-product/${p._id}`}
+                      className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                    >
+                      Edit
+                    </Link>
+
+                    <button
+                      onClick={() => handleDelete(p._id)}
+                      className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))
