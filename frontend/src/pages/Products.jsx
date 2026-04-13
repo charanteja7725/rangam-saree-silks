@@ -6,9 +6,10 @@ export default function Products() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-   fetch(`${import.meta.env.VITE_API_URL}/api/products`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then((res) => res.json())
-      .then((data) => setProducts(data.products || []));
+      .then((data) => setProducts(data.products || []))
+      .catch((err) => console.log(err));
   }, []);
 
   return (
@@ -31,10 +32,14 @@ export default function Products() {
               />
 
               <div className="p-5">
-                <h2 className="mb-2 text-xl font-semibold text-[#4b2e2e]">{p.name}</h2>
-                <p className="mb-4 text-lg font-bold text-[#b88917]">₹{p.price}</p>
+                <h2 className="mb-2 text-xl font-semibold text-[#4b2e2e]">
+                  {p.name}
+                </h2>
+                <p className="mb-4 text-lg font-bold text-[#b88917]">
+                  ₹{p.price}
+                </p>
 
-                <Link to={`/products/${product._id}`}>View Details</Link>
+                <Link to={`/product/${p._id}`}>View Details</Link>
               </div>
             </div>
           ))}
