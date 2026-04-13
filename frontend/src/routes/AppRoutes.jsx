@@ -18,19 +18,17 @@ export default function AppRoutes() {
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const isLoggedIn = token;
-  const isAdmin = user?.isAdmin;
+  const isLoggedIn = !!token;
+  const isAdmin = user?.role === "admin";
 
   return (
     <Router>
       <Routes>
-        {/* Public */}
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
 
-        {/* Protected user routes */}
         <Route
           path="/checkout"
           element={isLoggedIn ? <Checkout /> : <Login />}
@@ -40,11 +38,9 @@ export default function AppRoutes() {
           element={isLoggedIn ? <OrderHistory /> : <Login />}
         />
 
-        {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ✅ Admin-only routes */}
         <Route
           path="/admin/add-product"
           element={isAdmin ? <AdminAddProduct /> : <Login />}
@@ -58,7 +54,6 @@ export default function AppRoutes() {
           element={isAdmin ? <AdminEditProduct /> : <Login />}
         />
 
-        {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
