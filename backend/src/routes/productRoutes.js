@@ -1,3 +1,5 @@
+import express from "express"; // ✅ ADD THIS
+
 import {
   createProduct,
   getProducts,
@@ -17,8 +19,7 @@ router.get("/:id", getProductById);
 
 // Admin routes
 router.post("/", protect, adminOnly, upload.single("image"), createProduct);
-router.delete("/:id", protect, adminOnly, deleteProduct); // ✅ ADD THIS
-
+router.delete("/:id", protect, adminOnly, deleteProduct);
 router.put("/:id", protect, adminOnly, upload.single("image"), updateProduct);
 
 export default router;
