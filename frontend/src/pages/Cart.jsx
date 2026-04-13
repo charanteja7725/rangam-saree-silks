@@ -45,6 +45,8 @@ export default function Cart() {
     localStorage.removeItem("cart");
   };
 
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+
   const totalPrice = cart.reduce(
     (total, item) => total + Number(item.price) * item.quantity,
     0
@@ -126,8 +128,8 @@ export default function Cart() {
               </h2>
 
               <div className="mb-3 flex items-center justify-between text-[#5c4033]">
-                <span>Items</span>
-                <span>{cart.length}</span>
+                <span>Total Items</span>
+                <span>{totalItems}</span>
               </div>
 
               <div className="mb-6 flex items-center justify-between text-xl font-bold text-[#4b2e2e]">
