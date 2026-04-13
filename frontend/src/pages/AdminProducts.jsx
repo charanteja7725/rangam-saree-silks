@@ -4,11 +4,35 @@ import Navbar from "../components/Navbar";
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
+  const fetchProducts = async () => {
     fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data.products || []))
       .catch((err) => console.log(err));
+  };
+
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Product deleted successfully");
+      fetchProducts(); // refresh list
+    } else {
+      alert(data.message || "Failed to delete product");
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
   }, []);
 
   return (
@@ -45,9 +69,17 @@ export default function AdminProducts() {
                   <p className="mb-2 text-sm text-gray-600">
                     Category: {p.category}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="mb-4 text-sm text-gray-600">
                     Stock: {p.stock}
                   </p>
+
+                  {/* ✅ DELETE BUTTON */}
+                  <button
+                    onClick={() => handleDelete(p._id)}
+                    className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             ))
