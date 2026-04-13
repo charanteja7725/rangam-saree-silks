@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Navbar from "../components/Navbar";
 
 export default function AdminAddProduct() {
   const [form, setForm] = useState({
@@ -34,33 +35,111 @@ export default function AdminAddProduct() {
       formData.append("image", image);
     }
 
-   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products`, {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${token}`
-  },
-  body: formData
-});
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: formData
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      alert("Product added successfully");
-      console.log(data.product);
-    } else {
-      alert(data.message || "Failed to add product");
+      if (res.ok) {
+        alert("Product added successfully");
+        setForm({
+          name: "",
+          price: "",
+          description: "",
+          category: "",
+          stock: ""
+        });
+        setImage(null);
+      } else {
+        alert(data.message || "Failed to add product");
+      }
+    } catch (error) {
+      alert("Something went wrong");
+      console.log(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-md space-y-4 p-6">
-      <input name="name" placeholder="Name" value={form.name} onChange={handleChange} />
-      <input name="price" placeholder="Price" value={form.price} onChange={handleChange} />
-      <input name="description" placeholder="Description" value={form.description} onChange={handleChange} />
-      <input name="category" placeholder="Category" value={form.category} onChange={handleChange} />
-      <input name="stock" placeholder="Stock" value={form.stock} onChange={handleChange} />
-      <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
-      <button type="submit">Add Product</button>
-    </form>
+    <div className="min-h-screen bg-[#fffaf5]">
+      <Navbar />
+
+      <div className="mx-auto max-w-2xl px-6 py-10">
+        <h1 className="mb-6 text-3xl font-bold text-[#7a1f3d]">Add Product</h1>
+
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 rounded-2xl bg-white p-6 shadow-md"
+        >
+          <input
+            name="name"
+            placeholder="Product Name"
+            value={form.name}
+            onChange={handleChange}
+            className="w-full rounded border p-3"
+            required
+          />
+
+          <input
+            name="price"
+            type="number"
+            placeholder="Price"
+            value={form.price}
+            onChange={handleChange}
+            className="w-full rounded border p-3"
+            required
+          />
+
+          <input
+            name="category"
+            placeholder="Category"
+            value={form.category}
+            onChange={handleChange}
+            className="w-full rounded border p-3"
+            required
+          />
+
+          <input
+            name="stock"
+            type="number"
+            placeholder="Stock"
+            value={form.stock}
+            onChange={handleChange}
+            className="w-full rounded border p-3"
+            required
+          />
+
+          <textarea
+            name="description"
+            placeholder="Description"
+            value={form.description}
+            onChange={handleChange}
+            className="w-full rounded border p-3"
+            rows="4"
+            required
+          />
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+            className="w-full rounded border p-3"
+            required
+          />
+
+          <button
+            type="submit"
+            className="rounded bg-[#7a1f3d] px-6 py-3 text-white hover:bg-[#5f1730]"
+          >
+            Add Product
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
