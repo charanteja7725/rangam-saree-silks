@@ -1,36 +1,33 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
 
 export default function OrderHistory() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/orders`)
-      .then((res) => res.json())
-      .then((data) => setOrders(data.orders || []));
+    fetch(`${import.meta.env.VITE_API_URL}/api/orders`, {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`
+  }
+})
+      .then(res => res.json())
+      .then(data => setOrders(data.orders || []));
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
-      <Navbar />
-      <div className="mx-auto max-w-6xl px-6 py-10">
-        <h1 className="brand-font mb-8 text-4xl font-bold text-[#7a1f3d]">
-          Order History
-        </h1>
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-6">My Orders</h1>
 
-        <div className="space-y-6">
-          {orders.map((order) => (
-            <div key={order._id} className="rounded-2xl bg-white p-6 shadow-md">
-              <p className="font-semibold text-[#7a1f3d]">
-                Order ID: {order._id}
-              </p>
-              <p className="text-[#5c4033]">City: {order.city}</p>
-              <p className="text-[#5c4033]">Phone: {order.phone}</p>
-              <p className="font-bold text-[#b88917]">₹{order.totalPrice}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      {orders.length === 0 ? (
+        <p>No orders yet</p>
+      ) : (
+        orders.map((order, i) => (
+          <div key={i} className="mb-4 p-4 border rounded">
+            <p><b>Total:</b> ₹{order.totalPrice}</p>
+            <p><b>City:</b> {order.city}</p>
+            <p><b>Phone:</b> {order.phone}</p>
+          </div>
+        ))
+      )}
     </div>
   );
 }

@@ -1,19 +1,42 @@
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  return (
-    <nav className="sticky top-0 z-50 border-b bg-[#fffaf5] shadow-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link to="/" className="text-2xl font-bold tracking-wide text-[#7a1f3d]">
-          RANGAM
-        </Link>
+  const token = localStorage.getItem("token");
 
-        <div className="flex items-center gap-6 text-sm font-medium text-[#4b2e2e]">
-          <Link to="/" className="hover:text-[#b88917]">Home</Link>
-          <Link to="/products" className="hover:text-[#b88917]">Products</Link>
-          <Link to="/cart" className="hover:text-[#b88917]">Cart</Link>
-          <Link to="/login" className="hover:text-[#b88917]">Login</Link>
-        </div>
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
+
+  return (
+    <nav className="bg-[#7a1f3d] text-white px-6 py-4 flex justify-between items-center">
+      {/* Logo */}
+      <h1 className="text-xl font-bold">
+        <Link to="/">RANGAM</Link>
+      </h1>
+
+      {/* Links */}
+      <div className="flex gap-6 items-center">
+        <Link to="/">Home</Link>
+        <Link to="/products">Products</Link>
+        <Link to="/cart">Cart</Link>
+
+        {token ? (
+          <>
+            <Link to="/orders">My Orders</Link>
+            <button
+              onClick={handleLogout}
+              className="bg-white text-[#7a1f3d] px-3 py-1 rounded"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        )}
       </div>
     </nav>
   );
