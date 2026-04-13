@@ -70,12 +70,12 @@ export default function Checkout() {
 
             const data = await res.json();
             console.log("Order save response:", data);
-
-            if (data.success) {
-              alert("Payment successful and order placed!");
+             if (data.success) {
+              alert("Payment successful!");
               localStorage.removeItem("cart");
-              navigate("/products");
-            } else {
+              navigate("/orders"); // 👈 paste here
+              }
+              else {
               alert(data.message || "Payment done, but order save failed");
             }
           } catch (error) {

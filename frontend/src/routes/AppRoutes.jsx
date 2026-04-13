@@ -1,34 +1,36 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Products from "../pages/Products";
+import Cart from "../pages/Cart";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import ProductDetails from "../pages/ProductDetails";
-import Cart from "../pages/Cart";
-import NotFound from "../pages/NotFound";
-import AdminAddProduct from "../pages/AdminAddProduct";
+import Checkout from "../pages/Checkout";
 import OrderHistory from "../pages/OrderHistory";
 
-
-import Checkout from "../pages/Checkout"; 
-
 export default function AppRoutes() {
+  const isLoggedIn = localStorage.getItem("token");
+
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/checkout"
+          element={isLoggedIn ? <Checkout /> : <Login />}
+        />
+        <Route
+          path="/orders"
+          element={isLoggedIn ? <OrderHistory /> : <Login />}
+        />
+
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/admin/add-product" element={<AdminAddProduct />} />
-        <Route path="/orders" element={<OrderHistory />} />
-
-
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }

@@ -13,3 +13,5 @@ AI-based online saree shopping platform for handloom and silk sarees.
 - main: production
 - develop: integration
 - feature/*: individual feature branches
+## for razorpay 
+-backend:npm install razorpay
