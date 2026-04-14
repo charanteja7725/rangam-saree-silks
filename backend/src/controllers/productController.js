@@ -3,9 +3,7 @@ import Product from "../models/Product.js";
 export const createProduct = async (req, res) => {
   try {
     const { name, price, description, category, stock } = req.body;
-    
-    const image = req.file?.path || ""; // Cloudinary URL
-    console.log(image,"9999999999999999999")
+    const image = req.file?.path || "";
 
     const product = await Product.create({
       name,
@@ -52,5 +50,68 @@ export const getProductById = async (req, res) => {
     res.status(200).json({ success: true, product });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found"
+      });
+    }
+
+    await product.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully"
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+export const updateProduct = async (req, res) => {
+  try {
+    const { name, price, description, category, stock } = req.body;
+
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found"
+      });
+    }
+
+    product.name = name || product.name;
+    product.price = price ? Number(price) : product.price;
+    product.description = description || product.description;
+    product.category = category || product.category;
+    product.stock = stock ? Number(stock) : product.stock;
+
+    if (req.file?.path) {
+      product.image = req.file.path;
+    }
+
+    const updatedProduct = await product.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+      product: updatedProduct
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };

@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-export default function AdminAddProduct() {
+export default function AdminEditProduct() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     price: "",
@@ -9,20 +13,37 @@ export default function AdminAddProduct() {
     category: "",
     stock: ""
   });
+
   const [image, setImage] = useState(null);
 
+  // 🔹 Fetch existing product
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const p = data.product;
+
+        setForm({
+          name: p.name || "",
+          price: p.price || "",
+          description: p.description || "",
+          category: p.category || "",
+          stock: p.stock || ""
+        });
+      })
+      .catch((err) => console.log(err));
+  }, [id]);
+
+  // 🔹 Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  // 🔹 Update product
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Please login first");
-      return;
-    }
 
     const formData = new FormData();
     formData.append("name", form.name);
@@ -35,33 +56,24 @@ export default function AdminAddProduct() {
       formData.append("image", image);
     }
 
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products`, {
-        method: "POST",
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/products/${id}`,
+      {
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`
         },
         body: formData
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Product added successfully");
-        setForm({
-          name: "",
-          price: "",
-          description: "",
-          category: "",
-          stock: ""
-        });
-        setImage(null);
-      } else {
-        alert(data.message || "Failed to add product");
       }
-    } catch (error) {
-      alert("Something went wrong");
-      console.log(error);
+    );
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Product updated successfully");
+      navigate("/admin/products");
+    } else {
+      alert(data.message || "Failed to update product");
     }
   };
 
@@ -70,58 +82,53 @@ export default function AdminAddProduct() {
       <Navbar />
 
       <div className="mx-auto max-w-2xl px-6 py-10">
-        <h1 className="mb-6 text-3xl font-bold text-[#7a1f3d]">Add Product</h1>
+        <h1 className="mb-6 text-3xl font-bold text-[#7a1f3d]">
+          Edit Product
+        </h1>
 
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleUpdate}
           className="space-y-4 rounded-2xl bg-white p-6 shadow-md"
         >
           <input
             name="name"
-            placeholder="Product Name"
             value={form.name}
             onChange={handleChange}
+            placeholder="Product Name"
             className="w-full rounded border p-3"
-            required
           />
 
           <input
             name="price"
-            type="number"
-            placeholder="Price"
             value={form.price}
             onChange={handleChange}
+            placeholder="Price"
             className="w-full rounded border p-3"
-            required
           />
 
           <input
             name="category"
-            placeholder="Category"
             value={form.category}
             onChange={handleChange}
+            placeholder="Category"
             className="w-full rounded border p-3"
-            required
           />
 
           <input
             name="stock"
-            type="number"
-            placeholder="Stock"
             value={form.stock}
             onChange={handleChange}
+            placeholder="Stock"
             className="w-full rounded border p-3"
-            required
           />
 
           <textarea
             name="description"
-            placeholder="Description"
             value={form.description}
             onChange={handleChange}
+            placeholder="Description"
             className="w-full rounded border p-3"
             rows="4"
-            required
           />
 
           <input
@@ -129,17 +136,17 @@ export default function AdminAddProduct() {
             accept="image/*"
             onChange={(e) => setImage(e.target.files[0])}
             className="w-full rounded border p-3"
-            required
           />
 
           <button
             type="submit"
             className="rounded bg-[#7a1f3d] px-6 py-3 text-white hover:bg-[#5f1730]"
           >
-            Add Product
+            Update Product
           </button>
         </form>
       </div>
     </div>
   );
 }
+

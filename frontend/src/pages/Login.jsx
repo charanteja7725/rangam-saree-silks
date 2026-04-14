@@ -1,29 +1,57 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [form, setForm] = useState({ email:"", password:"" });
+  const [form, setForm] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)
     });
 
     const data = await res.json();
 
-    if(data.token){
+    if (data.token) {
       localStorage.setItem("token", data.token);
-      alert("Login success");
+
+      // ✅ Store user info (important for admin check)
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      alert("Login successful");
+
+      // ✅ Redirect after login
+      navigate("/");
+    } else {
+      alert(data.message || "Login failed");
     }
   };
 
   return (
     <div className="p-6">
-      <h1>Login</h1>
-      <input placeholder="Email" onChange={e=>setForm({...form,email:e.target.value})}/>
-      <input placeholder="Password" type="password" onChange={e=>setForm({...form,password:e.target.value})}/>
-      <button onClick={handleLogin}>Login</button>
+      <h1 className="mb-4 text-2xl font-bold">Login</h1>
+
+      <input
+        placeholder="Email"
+        className="mb-3 w-full border p-2"
+        onChange={(e) => setForm({ ...form, email: e.target.value })}
+      />
+
+      <input
+        placeholder="Password"
+        type="password"
+        className="mb-3 w-full border p-2"
+        onChange={(e) => setForm({ ...form, password: e.target.value })}
+      />
+
+      <button
+        onClick={handleLogin}
+        className="rounded bg-[#7a1f3d] px-4 py-2 text-white"
+      >
+        Login
+      </button>
     </div>
   );
 }
