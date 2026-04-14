@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
 
   const handleLogin = async () => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
@@ -16,14 +14,12 @@ export default function Login() {
 
     if (data.token) {
       localStorage.setItem("token", data.token);
-
-      // ✅ Store user info (important for admin check)
       localStorage.setItem("user", JSON.stringify(data.user));
 
       alert("Login successful");
 
-      // ✅ Redirect after login
-      navigate("/");
+      // ✅ FIX: force reload so auth state updates
+      window.location.href = "/";
     } else {
       alert(data.message || "Login failed");
     }
