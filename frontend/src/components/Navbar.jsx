@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     window.location.href = "/login";
   };
 
@@ -24,6 +26,14 @@ export default function Navbar() {
         {token ? (
           <>
             <Link to="/orders">My Orders</Link>
+
+            {/* ✅ SHOW ONLY FOR ADMIN */}
+            {user?.isAdmin && (
+              <>
+                <Link to="/admin/add-product">Add Product</Link>
+              </>
+            )}
+
             <button
               onClick={handleLogout}
               className="bg-white text-[#7a1f3d] px-3 py-1 rounded"
