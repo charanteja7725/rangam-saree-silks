@@ -1,39 +1,28 @@
 import { useState } from "react";
 
 export default function Login() {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email:"", password:"" });
 
   const handleLogin = async () => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
       body: JSON.stringify(form)
     });
 
     const data = await res.json();
 
-    if (data.token) {
+    if(data.token){
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user)); // ✅ IMPORTANT
       alert("Login success");
-      window.location.href = "/"; // ✅ redirect after login
-    } else {
-      alert(data.message || "Login failed");
     }
   };
 
   return (
     <div className="p-6">
       <h1>Login</h1>
-      <input
-        placeholder="Email"
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-      <input
-        placeholder="Password"
-        type="password"
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
+      <input placeholder="Email" onChange={e=>setForm({...form,email:e.target.value})}/>
+      <input placeholder="Password" type="password" onChange={e=>setForm({...form,password:e.target.value})}/>
       <button onClick={handleLogin}>Login</button>
     </div>
   );
