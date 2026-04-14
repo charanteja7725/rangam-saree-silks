@@ -25,11 +25,12 @@ export default function Navbar() {
           <>
             <Link to="/orders">My Orders</Link>
 
-            {/* ✅ FIXED HERE */}
+            {/* ✅ ADMIN LINKS */}
             {user?.role === "admin" && (
               <>
                 <Link to="/admin/add-product">Add Product</Link>
                 <Link to="/admin/products">Manage Products</Link>
+                <Link to="/admin/orders">Admin Orders</Link> {/* ✅ ADD THIS */}
               </>
             )}
 

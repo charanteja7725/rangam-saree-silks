@@ -42,7 +42,9 @@ export default function Products() {
       <Navbar />
 
       <div className="mx-auto max-w-7xl px-6 py-10">
-        <h1 className="mb-8 text-4xl font-bold text-[#7a1f3d]">Our Sarees</h1>
+        <h1 className="mb-8 text-4xl font-bold text-[#7a1f3d]">
+          Our Sarees
+        </h1>
 
         <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
           <input

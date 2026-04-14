@@ -13,6 +13,7 @@ import NotFound from "../pages/NotFound";
 import AdminAddProduct from "../pages/AdminAddProduct";
 import AdminProducts from "../pages/AdminProducts";
 import AdminEditProduct from "../pages/AdminEditProduct";
+import AdminOrders from "../pages/AdminOrders"; // ✅ ADD THIS
 
 export default function AppRoutes() {
   const token = localStorage.getItem("token");
@@ -24,11 +25,13 @@ export default function AppRoutes() {
   return (
     <Router>
       <Routes>
+        {/* Public */}
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
 
+        {/* User */}
         <Route
           path="/checkout"
           element={isLoggedIn ? <Checkout /> : <Login />}
@@ -38,9 +41,11 @@ export default function AppRoutes() {
           element={isLoggedIn ? <OrderHistory /> : <Login />}
         />
 
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
+        {/* Admin */}
         <Route
           path="/admin/add-product"
           element={isAdmin ? <AdminAddProduct /> : <Login />}
@@ -53,7 +58,12 @@ export default function AppRoutes() {
           path="/admin/edit-product/:id"
           element={isAdmin ? <AdminEditProduct /> : <Login />}
         />
+        <Route
+          path="/admin/orders"
+          element={isAdmin ? <AdminOrders /> : <Login />}
+        />
 
+        {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
