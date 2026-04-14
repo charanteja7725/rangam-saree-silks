@@ -42,7 +42,9 @@ export default function Products() {
       <Navbar />
 
       <div className="mx-auto max-w-7xl px-6 py-10">
-        <h1 className="mb-8 text-4xl font-bold text-[#7a1f3d]">Our Sarees</h1>
+        <h1 className="mb-8 text-4xl font-bold text-[#7a1f3d]">
+          Our Sarees
+        </h1>
 
         <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
           <input
@@ -96,9 +98,6 @@ export default function Products() {
                     {p.name}
                   </h2>
 
-<<<<<<< HEAD
-                <Link to={`/products/${p._id}`}>View Details</Link>
-=======
                   <p className="mb-1 text-sm text-gray-600">
                     Category: {p.category}
                   </p>
@@ -109,7 +108,6 @@ export default function Products() {
 
                   <Link to={`/product/${p._id}`}>View Details</Link>
                 </div>
->>>>>>> 4c1dded0e8f2e489092baece790f6c98749ab085
               </div>
             ))
           )}
