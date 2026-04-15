@@ -5,6 +5,13 @@ export const createOrder = async (req, res) => {
   try {
     const { items, totalAmount, address, city, pincode, phone } = req.body;
 
+    if (!items || items.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No items in order"
+      });
+    }
+
     const order = await Order.create({
       user: req.user._id,
       items,
@@ -50,6 +57,7 @@ export const getUserOrders = async (req, res) => {
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
+      .populate("user", "email") // 👈 better admin view
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -64,10 +72,19 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-// ✅ NEW: Update Order Status (FINAL STEP)
+// ✅ Update Order Status (Admin)
 export const updateOrderStatus = async (req, res) => {
   try {
     const { status } = req.body;
+
+    // 🔒 Optional: validate status
+    const validStatus = ["Processing", "Shipped", "Delivered"];
+    if (!validStatus.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status value"
+      });
+    }
 
     const order = await Order.findById(req.params.id);
 
