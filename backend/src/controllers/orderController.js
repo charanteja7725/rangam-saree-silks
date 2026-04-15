@@ -57,7 +57,7 @@ export const getUserOrders = async (req, res) => {
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate("user", "email") // 👈 better admin view
+      .populate("user", "email")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -77,7 +77,6 @@ export const updateOrderStatus = async (req, res) => {
   try {
     const { status } = req.body;
 
-    // 🔒 Optional: validate status
     const validStatus = ["Processing", "Shipped", "Delivered"];
     if (!validStatus.includes(status)) {
       return res.status(400).json({
@@ -102,6 +101,43 @@ export const updateOrderStatus = async (req, res) => {
       success: true,
       message: "Order status updated",
       order
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+// ✅ NEW: Admin Dashboard Stats (DAY 14)
+export const getAdminStats = async (req, res) => {
+  try {
+    // Total orders
+    const totalOrders = await Order.countDocuments();
+
+    // Total revenue
+    const revenueData = await Order.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: "$totalAmount" }
+        }
+      }
+    ]);
+
+    const totalRevenue = revenueData[0]?.totalRevenue || 0;
+
+    // Recent orders
+    const recentOrders = await Order.find()
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    res.status(200).json({
+      success: true,
+      totalOrders,
+      totalRevenue,
+      recentOrders
     });
   } catch (error) {
     res.status(500).json({
