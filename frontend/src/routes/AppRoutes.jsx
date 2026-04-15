@@ -13,7 +13,8 @@ import NotFound from "../pages/NotFound";
 import AdminAddProduct from "../pages/AdminAddProduct";
 import AdminProducts from "../pages/AdminProducts";
 import AdminEditProduct from "../pages/AdminEditProduct";
-import AdminOrders from "../pages/AdminOrders"; // ✅ ADD THIS
+import AdminOrders from "../pages/AdminOrders";
+import AdminDashboard from "../pages/AdminDashboard"; // ✅ ADD THIS
 
 export default function AppRoutes() {
   const token = localStorage.getItem("token");
@@ -46,6 +47,10 @@ export default function AppRoutes() {
         <Route path="/register" element={<Register />} />
 
         {/* Admin */}
+        <Route
+          path="/admin/dashboard"
+          element={isAdmin ? <AdminDashboard /> : <Login />}
+        />
         <Route
           path="/admin/add-product"
           element={isAdmin ? <AdminAddProduct /> : <Login />}
