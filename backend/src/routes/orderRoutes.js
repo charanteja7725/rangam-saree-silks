@@ -3,7 +3,7 @@ import {
   createOrder,
   getUserOrders,
   getAllOrders,
-  updateOrderStatus   // ✅ ADD THIS
+  updateOrderStatus
 } from "../controllers/orderController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -18,7 +18,7 @@ router.get("/my", protect, getUserOrders);
 // ✅ Admin - Get all orders
 router.get("/all", protect, getAllOrders);
 
-// ✅ NEW: Update order status
+// ✅ Update order status (Admin)
 router.put("/:id", protect, updateOrderStatus);
 
 export default router;
