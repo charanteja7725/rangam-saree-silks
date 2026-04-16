@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
@@ -8,13 +8,11 @@ export default function Cart() {
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = savedCart.map((item) => ({
+    return savedCart.map((item) => ({
       ...item,
       quantity: item.quantity || 1
     }));
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  }, []);
+  });
 
   const updateCart = (updatedCart) => {
     setCart(updatedCart);

@@ -18,16 +18,15 @@ export default function AdminDashboard() {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.success) setStats(data);
       });
   }, []);
 
   if (!stats) return (<div style={{ padding: "1.5rem", textAlign: "center", fontSize: "1rem" }}>Loading dashboard...</div>);
 
-  // ✅ Chart Data
-  const chartData = stats.recentOrders.map(order => ({
+  const chartData = stats.recentOrders.map((order) => ({
     name: order._id.slice(-4),
     amount: order.totalAmount
   }));
@@ -130,7 +129,6 @@ export default function AdminDashboard() {
             ₹{stats.totalRevenue}
           </p>
         </div>
-      </div>
 
       {/* ✅ Chart Section */}
       <div style={{

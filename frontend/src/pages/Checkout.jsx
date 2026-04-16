@@ -21,6 +21,11 @@ export default function Checkout() {
     0
   );
 
+  const totalItems = cart.reduce(
+    (sum, item) => sum + (item.quantity || 1),
+    0
+  );
+
   const loadPayment = async () => {
     try {
       if (!form.address || !form.city || !form.pincode || !form.phone) {
@@ -179,6 +184,7 @@ export default function Checkout() {
                 onBlur={() => setInputFocus(null)}
                 style={inputStyle("address")}
               />
+
               <input
                 placeholder="City"
                 value={form.city}
@@ -187,6 +193,7 @@ export default function Checkout() {
                 onBlur={() => setInputFocus(null)}
                 style={inputStyle("city")}
               />
+
               <input
                 placeholder="Pincode"
                 value={form.pincode}
@@ -195,6 +202,7 @@ export default function Checkout() {
                 onBlur={() => setInputFocus(null)}
                 style={inputStyle("pincode")}
               />
+
               <input
                 placeholder="Phone"
                 value={form.phone}

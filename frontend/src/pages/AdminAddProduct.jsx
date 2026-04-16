@@ -186,6 +186,7 @@ export default function AdminAddProduct() {
               resize: "vertical"
             }}
             rows="4"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
             required
           />
 

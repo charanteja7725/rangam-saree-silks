@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 export default function OrderHistory() {
   const [orders, setOrders] = useState([]);
@@ -11,12 +12,13 @@ export default function OrderHistory() {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.success) {
           setOrders(data.orders);
         }
-      });
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (

@@ -17,7 +17,6 @@ export default function AdminEditProduct() {
   const [image, setImage] = useState(null);
   const [focusedField, setFocusedField] = useState(null);
 
-  // 🔹 Fetch existing product
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
       .then((res) => res.json())
@@ -35,12 +34,10 @@ export default function AdminEditProduct() {
       .catch((err) => console.log(err));
   }, [id]);
 
-  // 🔹 Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 🔹 Update product
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -192,6 +189,7 @@ export default function AdminEditProduct() {
               resize: "vertical"
             }}
             rows="4"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
           />
 
           <input
@@ -235,4 +233,3 @@ export default function AdminEditProduct() {
     </div>
   );
 }
-
