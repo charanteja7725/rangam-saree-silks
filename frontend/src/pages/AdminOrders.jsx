@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
+  const [expandedOrder, setExpandedOrder] = useState(null);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -57,107 +58,187 @@ export default function AdminOrders() {
     }
   };
 
+  const getStatusBadgeColor = (status) => {
+    switch (status) {
+      case "Pending":
+        return { backgroundColor: "#fef3c7", color: "#b45309", borderColor: "#fcd34d" };
+      case "Shipped":
+        return { backgroundColor: "#dbeafe", color: "#1e40af", borderColor: "#93c5fd" };
+      case "Delivered":
+        return { backgroundColor: "#d1fae5", color: "#065f46", borderColor: "#6ee7b7" };
+      default:
+        return { backgroundColor: "#f3f4f6", color: "#4b5563", borderColor: "#e5e7eb" };
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
+    <div style={{
+      padding: "1.5rem",
+      minHeight: "100vh",
+      backgroundColor: "#fffaf5"
+    }}>
+      <style>{`
+        @keyframes slideInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+
       <Navbar />
+      <h1 style={{
+        marginBottom: "1.5rem",
+        fontSize: "1.875rem",
+        fontWeight: "bold",
+        color: "#7a1f3d",
+        fontFamily: "'Cormorant Garamond', serif",
+        letterSpacing: "0.02em"
+      }}>
+        All Orders (Admin)
+      </h1>
 
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="mb-10">
-          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-[#b88917]">
-            Admin Panel
-          </p>
-          <h1 className="text-5xl font-bold text-[#7a1f3d] md:text-6xl">
-            All Orders
-          </h1>
-        </div>
-
-        {orders.length === 0 ? (
-          <div className="rounded-3xl bg-white p-10 text-center shadow-md">
-            <p className="text-lg text-[#5c4033]">No orders found</p>
-          </div>
-        ) : (
-          <div className="space-y-8">
-            {orders.map((order, index) => (
-              <div
-                key={order._id}
-                className="rounded-3xl bg-white p-6 shadow-md transition duration-300 hover:shadow-2xl"
-              >
-                <div className="mb-6 flex flex-col gap-4 border-b border-[#eee2d7] pb-4 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.25em] text-[#b88917]">
-                      Order #{index + 1}
-                    </p>
-                    <h2 className="mt-2 text-2xl font-semibold text-[#7a1f3d]">
-                      ₹{order.totalAmount}
-                    </h2>
-                  </div>
-
-                  <div className="grid gap-2 text-sm text-[#5c4033] md:text-right">
-                    <p>
-                      <span className="font-semibold text-[#2f1b1b]">User:</span>{" "}
-                      {order.user?.email || order.user}
-                    </p>
-                    <p>
-                      <span className="font-semibold text-[#2f1b1b]">City:</span>{" "}
-                      {order.city}
-                    </p>
-                    <p>
-                      <span className="font-semibold text-[#2f1b1b]">Status:</span>{" "}
-                      <span className="font-medium text-[#b88917]">
-                        {order.status}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mb-5">
-                  <select
-                    value={order.status}
-                    onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                    className="rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
-                  </select>
-                </div>
-
+      {orders.length === 0 ? (
+        <p style={{ color: "#5c4033", fontSize: "1rem" }}>No orders found</p>
+      ) : (
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+          gap: "1.5rem"
+        }}>
+          {orders.map((order, index) => (
+            <div
+              key={order._id}
+              style={{
+                borderRadius: "0.75rem",
+                border: "2px solid #d6bfa8",
+                backgroundColor: "#ffffff",
+                padding: "1.25rem",
+                animation: `slideInUp 0.6s ease-out ${0.1 + index * 0.05}s backwards`,
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                cursor: "pointer",
+                maxHeight: expandedOrder === order._id ? "600px" : "auto",
+                overflow: "hidden"
+              }}
+              onClick={() => setExpandedOrder(expandedOrder === order._id ? null : order._id)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(122, 31, 61, 0.2)";
+                e.currentTarget.style.borderColor = "#7a1f3d";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.05)";
+                e.currentTarget.style.borderColor = "#d6bfa8";
+              }}
+            >
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "1rem"
+              }}>
                 <div>
-                  <p className="mb-4 text-lg font-semibold text-[#4b2e2e]">
-                    Items
+                  <p style={{
+                    fontSize: "0.875rem",
+                    color: "#6b4f45",
+                    marginBottom: "0.25rem"
+                  }}>
+                    <strong>User:</strong> {order.user?.email || order.user}
                   </p>
-
-                  <div className="space-y-4">
-                    {order.items?.map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-4 rounded-2xl bg-[#fffaf5] p-4"
-                      >
-                        {item.image && (
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="h-16 w-16 rounded-2xl object-cover"
-                          />
-                        )}
-
-                        <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-[#4b2e2e]">
-                            {item.name}
-                          </h3>
-                          <p className="text-sm text-[#5c4033]">
-                            ₹{item.price} × {item.quantity}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <p style={{
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    color: "#7a1f3d"
+                  }}>
+                    ₹{order.totalAmount}
+                  </p>
+                </div>
+                <div style={{
+                  padding: "0.5rem 1rem",
+                  borderRadius: "0.375rem",
+                  border: `2px solid ${getStatusBadgeColor(order.status).borderColor}`,
+                  ...getStatusBadgeColor(order.status),
+                  fontSize: "0.875rem",
+                  fontWeight: "600"
+                }}>
+                  {order.status}
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+              <p style={{
+                fontSize: "0.875rem",
+                color: "#6b4f45",
+                marginBottom: "1rem"
+              }}>
+                <strong>City:</strong> {order.city}
+              </p>
+
+              <select
+                value={order.status}
+                onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                style={{
+                  borderRadius: "0.375rem",
+                  border: "2px solid #d6bfa8",
+                  padding: "0.5rem 0.75rem",
+                  fontSize: "0.875rem",
+                  backgroundColor: "#ffffff",
+                  color: "#2f1b1b",
+                  cursor: "pointer",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  marginBottom: "1rem"
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.borderColor = "#7a1f3d";
+                  e.target.style.boxShadow = "0 2px 8px rgba(122, 31, 61, 0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.borderColor = "#d6bfa8";
+                  e.target.style.boxShadow = "none";
+                }}
+              >
+                <option value="Pending">Pending</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+              </select>
+
+              <div style={{
+                marginTop: "1rem",
+                paddingTop: "1rem",
+                borderTop: "1px solid #e5d5c8",
+                maxHeight: expandedOrder === order._id ? "300px" : "0",
+                overflow: "hidden",
+                transition: "max-height 0.3s ease-out"
+              }}>
+                <strong style={{
+                  color: "#7a1f3d",
+                  display: "block",
+                  marginBottom: "0.75rem"
+                }}>
+                  Items:
+                </strong>
+                {order.items?.map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "0.5rem",
+                      backgroundColor: "#f5f0eb",
+                      borderRadius: "0.375rem",
+                      marginBottom: "0.5rem",
+                      fontSize: "0.875rem",
+                      color: "#4b2e2e"
+                    }}
+                  >
+                    {item.name} (₹{item.price} × {item.quantity})
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

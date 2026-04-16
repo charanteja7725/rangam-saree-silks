@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function OrderHistory() {
   const [orders, setOrders] = useState([]);
+  const [expandedOrder, setExpandedOrder] = useState(null);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/orders/my`, {
@@ -21,96 +22,192 @@ export default function OrderHistory() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
+    <div style={{
+      minHeight: "100vh",
+      background: "linear-gradient(135deg, #fffaf5 0%, #f5f0eb 100%)",
+      fontFamily: "'Inter', sans-serif"
+    }}>
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="mb-10">
-          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-[#b88917]">
-            Your Purchases
-          </p>
-          <h1 className="text-5xl font-bold text-[#7a1f3d] md:text-6xl">
-            My Orders
-          </h1>
-        </div>
+      <div style={{
+        maxWidth: "80rem",
+        margin: "0 auto",
+        padding: "2.5rem 1.5rem"
+      }}>
+        <h1 style={{
+          fontSize: "2.25rem",
+          fontWeight: "bold",
+          marginBottom: "2rem",
+          color: "#7a1f3d",
+          fontFamily: "'Cormorant Garamond', serif",
+          letterSpacing: "0.02em",
+          animation: "fadeIn 0.8s ease-in"
+        }}>
+          My Orders
+        </h1>
 
         {orders.length === 0 ? (
-          <div className="rounded-3xl bg-white p-10 text-center shadow-md">
-            <p className="mb-6 text-lg text-[#5c4033]">No orders yet</p>
-            <Link
-              to="/products"
-              className="inline-block rounded-xl bg-[#7a1f3d] px-6 py-3 font-medium text-white shadow-md transition hover:bg-[#5f1730] hover:shadow-lg"
-            >
-              Start Shopping
-            </Link>
+          <div style={{
+            borderRadius: "1.5rem",
+            background: "white",
+            padding: "2rem",
+            textAlign: "center",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
+          }}>
+            <p style={{
+              fontSize: "1.1rem",
+              color: "#5c4033"
+            }}>No orders yet</p>
           </div>
         ) : (
-          <div className="space-y-8">
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+            gap: "1.5rem"
+          }}>
             {orders.map((order, i) => (
               <div
                 key={i}
-                className="rounded-3xl bg-white p-6 shadow-md transition duration-300 hover:shadow-2xl"
+                onClick={() => setExpandedOrder(expandedOrder === i ? null : i)}
+                style={{
+                  borderRadius: "1.5rem",
+                  background: "white",
+                  padding: "1.5rem",
+                  border: "2px solid #e0d5c7",
+                  boxShadow: expandedOrder === i
+                    ? "0 12px 28px rgba(122, 31, 61, 0.15)"
+                    : "0 4px 12px rgba(0, 0, 0, 0.08)",
+                  cursor: "pointer",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  transform: expandedOrder === i ? "translateY(-4px)" : "translateY(0)",
+                  animation: `slideInUp 0.6s ease-out ${0.1 + i * 0.05}s backwards`
+                }}
               >
-                <div className="mb-6 flex flex-col gap-4 border-b border-[#eee2d7] pb-4 md:flex-row md:items-center md:justify-between">
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "1rem"
+                }}>
                   <div>
-                    <p className="text-sm uppercase tracking-[0.25em] text-[#b88917]">
-                      Order #{i + 1}
-                    </p>
-                    <h2 className="mt-2 text-2xl font-semibold text-[#7a1f3d]">
-                      ₹{order.totalAmount}
-                    </h2>
+                    <p style={{
+                      fontSize: "0.875rem",
+                      color: "#b88917",
+                      fontWeight: "600",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                      marginBottom: "0.25rem"
+                    }}>Order #{order._id.slice(-6)}</p>
+                    <p style={{
+                      fontSize: "1.5rem",
+                      fontWeight: "bold",
+                      color: "#7a1f3d",
+                      fontFamily: "'Cormorant Garamond', serif"
+                    }}>₹{order.totalAmount}</p>
                   </div>
-
-                  <div className="grid gap-2 text-sm text-[#5c4033] md:text-right">
-                    <p>
-                      <span className="font-semibold text-[#2f1b1b]">City:</span>{" "}
-                      {order.city}
-                    </p>
-                    <p>
-                      <span className="font-semibold text-[#2f1b1b]">Phone:</span>{" "}
-                      {order.phone}
-                    </p>
-                    <p>
-                      <span className="font-semibold text-[#2f1b1b]">Status:</span>{" "}
-                      <span className="font-medium text-[#b88917]">
-                        {order.status || "Processing"}
-                      </span>
-                    </p>
+                  <div style={{
+                    background: order.status === "pending" ? "#fef3c7" : "#d1fae5",
+                    color: order.status === "pending" ? "#b45309" : "#065f46",
+                    padding: "0.5rem 1rem",
+                    borderRadius: "0.5rem",
+                    fontWeight: "600",
+                    fontSize: "0.875rem",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em"
+                  }}>
+                    {order.status}
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  {order.items.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center gap-4 rounded-2xl bg-[#fffaf5] p-4"
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="h-16 w-16 rounded-2xl object-cover"
-                      />
+                <div style={{
+                  borderBottom: "1px solid #e0d5c7",
+                  paddingBottom: "1rem",
+                  marginBottom: "1rem"
+                }}>
+                  <p style={{
+                    fontSize: "0.9rem",
+                    color: "#5c4033",
+                    marginBottom: "0.25rem"
+                  }}><strong>Address:</strong> {order.address}</p>
+                  <p style={{
+                    fontSize: "0.9rem",
+                    color: "#5c4033",
+                    marginBottom: "0.25rem"
+                  }}><strong>City:</strong> {order.city}</p>
+                  <p style={{
+                    fontSize: "0.9rem",
+                    color: "#5c4033"
+                  }}><strong>Phone:</strong> {order.phone}</p>
+                </div>
 
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-[#4b2e2e]">
-                          {item.name}
-                        </h3>
-                        <p className="text-sm text-[#5c4033]">
-                          ₹{item.price} × {item.quantity}
-                        </p>
-                      </div>
-
-                      <p className="font-bold text-[#b88917]">
-                        ₹{Number(item.price) * Number(item.quantity)}
-                      </p>
+                {expandedOrder === i && (
+                  <div style={{
+                    animation: "slideInUp 0.3s ease-out"
+                  }}>
+                    <h3 style={{
+                      fontSize: "1rem",
+                      fontWeight: "600",
+                      color: "#7a1f3d",
+                      marginBottom: "0.75rem"
+                    }}>Items</h3>
+                    <div style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.75rem"
+                    }}>
+                      {order.items.map((item, idx) => (
+                        <div key={idx} style={{
+                          display: "flex",
+                          gap: "0.75rem",
+                          alignItems: "center",
+                          padding: "0.75rem",
+                          borderRadius: "0.75rem",
+                          background: "#fffaf5"
+                        }}>
+                          <img src={item.image} alt="" style={{
+                            width: "48px",
+                            height: "48px",
+                            borderRadius: "0.5rem",
+                            objectFit: "cover"
+                          }} />
+                          <div style={{ flex: 1 }}>
+                            <p style={{
+                              fontSize: "0.9rem",
+                              fontWeight: "600",
+                              color: "#2f1b1b"
+                            }}>{item.name}</p>
+                            <p style={{
+                              fontSize: "0.85rem",
+                              color: "#5c4033"
+                            }}>₹{item.price} × {item.quantity}</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         )}
       </div>
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideInUp {
+          from { 
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to { 
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }

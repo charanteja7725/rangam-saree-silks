@@ -1,32 +1,45 @@
 export default function Footer() {
+  const footerStyle = {
+    marginTop: "2.5rem",
+    borderTop: "2px solid #e0d5c7",
+    background: "linear-gradient(135deg, #2f1b1b 0%, #3d2725 100%)",
+    padding: "2.5rem 1rem",
+    transition: "all 0.3s ease"
+  };
+
+  const containerStyle = {
+    maxWidth: "80rem",
+    margin: "0 auto",
+    fontSize: "0.875rem",
+    color: "#b8a589",
+    textAlign: "center",
+    letterSpacing: "0.05em"
+  };
+
   return (
-    <footer className="mt-16 bg-[#7a1f3d] text-white">
-      <div className="mx-auto max-w-7xl px-6 py-10">
-        
-        {/* Top Section */}
-        <div className="mb-6 flex flex-col items-center justify-between gap-6 md:flex-row">
-          <h2 className="text-2xl font-bold tracking-wide">
-            RANGAM
-          </h2>
-
-          <div className="flex gap-6 text-sm">
-            <p className="hover:text-[#f3d27a] cursor-pointer transition">Home</p>
-            <p className="hover:text-[#f3d27a] cursor-pointer transition">Products</p>
-            <p className="hover:text-[#f3d27a] cursor-pointer transition">Cart</p>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="mb-6 h-[1px] w-full bg-white/20"></div>
-
-        {/* Bottom Section */}
-        <div className="flex flex-col items-center justify-between gap-4 text-sm text-white/80 md:flex-row">
-          <p>© 2026 Rangam Saree Silks. All rights reserved.</p>
-
-          <p className="text-[#f3d27a]">
-            Crafted with elegance ✨
-          </p>
-        </div>
+    <footer style={footerStyle}>
+      <div style={containerStyle}>
+        <p style={{
+          margin: 0,
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: "1.1rem",
+          fontWeight: "500",
+          color: "#f3d27a",
+          letterSpacing: "0.15em",
+          textTransform: "uppercase",
+          transition: "all 0.3s ease",
+          cursor: "default"
+        }}>
+          © 2026 Rangam Saree Silks. All rights reserved.
+        </p>
+        <p style={{
+          marginTop: "0.75rem",
+          fontSize: "0.8rem",
+          color: "#8b7355",
+          letterSpacing: "0.05em"
+        }}>
+          Crafted with elegance • Premium silk sarees for every celebration
+        </p>
       </div>
     </footer>
   );

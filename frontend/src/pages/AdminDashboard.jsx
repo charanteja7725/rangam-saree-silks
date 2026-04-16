@@ -24,14 +24,7 @@ export default function AdminDashboard() {
       });
   }, []);
 
-  if (!stats) {
-    return (
-      <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
-        <Navbar />
-        <p className="px-6 py-10 text-lg">Loading dashboard...</p>
-      </div>
-    );
-  }
+  if (!stats) return (<div style={{ padding: "1.5rem", textAlign: "center", fontSize: "1rem" }}>Loading dashboard...</div>);
 
   const chartData = stats.recentOrders.map((order) => ({
     name: order._id.slice(-4),
@@ -39,80 +32,186 @@ export default function AdminDashboard() {
   }));
 
   return (
-    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
+    <div style={{
+      minHeight: "100vh",
+      backgroundColor: "#fffaf5",
+      color: "#2f1b1b",
+      padding: "1.5rem"
+    }}>
+      <style>{`
+        @keyframes slideInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      `}</style>
+
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="mb-10">
-          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-[#b88917]">
-            Admin Panel
+      <h1 style={{
+        fontSize: "2.25rem",
+        fontWeight: "bold",
+        marginBottom: "2rem",
+        color: "#7a1f3d",
+        fontFamily: "'Cormorant Garamond', serif",
+        letterSpacing: "0.02em"
+      }}>
+        Admin Dashboard
+      </h1>
+
+      {/* ✅ Stats Cards */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+        gap: "1.5rem",
+        marginBottom: "2.5rem"
+      }}>
+        <div style={{
+          padding: "1.5rem",
+          backgroundColor: "#ffffff",
+          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+          borderRadius: "0.75rem",
+          animation: "slideInUp 0.6s ease-out 0.1s backwards",
+          transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          cursor: "pointer"
+        }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-4px)"}
+          onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+        >
+          <h2 style={{
+            fontSize: "1.125rem",
+            marginBottom: "0.5rem",
+            color: "#5c4033"
+          }}>Total Orders</h2>
+          <p style={{
+            fontSize: "1.875rem",
+            fontWeight: "bold",
+            color: "#7a1f3d"
+          }}>{stats.totalOrders}</p>
+        </div>
+
+        <div style={{
+          padding: "1.5rem",
+          backgroundColor: "#ffffff",
+          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+          borderRadius: "0.75rem",
+          animation: "slideInUp 0.6s ease-out 0.15s backwards",
+          transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          cursor: "pointer"
+        }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-4px)"}
+          onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+        >
+          <h2 style={{
+            fontSize: "1.125rem",
+            marginBottom: "0.5rem",
+            color: "#5c4033"
+          }}>Total Revenue</h2>
+          <p style={{
+            fontSize: "1.875rem",
+            fontWeight: "bold",
+            color: "#b88917"
+          }}>
+            ₹{stats.totalRevenue}
           </p>
-          <h1 className="text-5xl font-bold text-[#7a1f3d] md:text-6xl">
-            Admin Dashboard
-          </h1>
         </div>
 
-        <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div className="rounded-3xl bg-white p-6 shadow-md transition duration-300 hover:shadow-2xl">
-            <h2 className="mb-2 text-lg text-[#5c4033]">Total Orders</h2>
-            <p className="text-3xl font-bold text-[#7a1f3d]">
-              {stats.totalOrders}
-            </p>
-          </div>
+      {/* ✅ Chart Section */}
+      <div style={{
+        backgroundColor: "#ffffff",
+        padding: "1.5rem",
+        borderRadius: "0.75rem",
+        boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+        marginBottom: "2.5rem",
+        animation: "slideInUp 0.6s ease-out 0.2s backwards"
+      }}>
+        <h2 style={{
+          fontSize: "1.875rem",
+          marginBottom: "1rem",
+          fontWeight: "600",
+          color: "#7a1f3d",
+          fontFamily: "'Cormorant Garamond', serif"
+        }}>Revenue Chart</h2>
 
-          <div className="rounded-3xl bg-white p-6 shadow-md transition duration-300 hover:shadow-2xl">
-            <h2 className="mb-2 text-lg text-[#5c4033]">Total Revenue</h2>
-            <p className="text-3xl font-bold text-[#b88917]">
-              ₹{stats.totalRevenue}
-            </p>
-          </div>
-        </div>
-
-        <div className="mb-10 rounded-3xl bg-white p-6 shadow-md">
-          <h2 className="mb-6 text-3xl font-bold text-[#7a1f3d]">
-            Revenue Chart
-          </h2>
-
-          {chartData.length === 0 ? (
-            <p className="text-[#5c4033]">No data for chart</p>
-          ) : (
-            <ResponsiveContainer width="100%" height={320}>
-              <BarChart data={chartData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="amount" fill="#7a1f3d" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          )}
-        </div>
-
-        <div>
-          <h2 className="mb-6 text-3xl font-bold text-[#7a1f3d]">
-            Recent Orders
-          </h2>
-
-          {stats.recentOrders.length === 0 ? (
-            <div className="rounded-3xl bg-white p-6 shadow-md">
-              <p className="text-[#5c4033]">No recent orders</p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {stats.recentOrders.map((order) => (
-                <div
-                  key={order._id}
-                  className="rounded-2xl bg-white p-5 shadow-md transition duration-300 hover:shadow-xl"
-                >
-                  <p className="text-lg font-semibold text-[#4b2e2e]">
-                    ₹{order.totalAmount} -{" "}
-                    <span className="text-[#b88917]">{order.status}</span>
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {chartData.length === 0 ? (
+          <p style={{ color: "#6b4f45" }}>No data for chart</p>
+        ) : (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={chartData}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="amount" fill="#7a1f3d" />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </div>
+
+      {/* ✅ Recent Orders */}
+      <h2 style={{
+        fontSize: "1.875rem",
+        marginBottom: "1rem",
+        fontWeight: "600",
+        color: "#7a1f3d",
+        fontFamily: "'Cormorant Garamond', serif"
+      }}>Recent Orders</h2>
+
+      {stats.recentOrders.length === 0 ? (
+        <p style={{ color: "#6b4f45" }}>No recent orders</p>
+      ) : (
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+          gap: "1rem"
+        }}>
+          {stats.recentOrders.map((order, index) => (
+            <div key={order._id} style={{
+              marginBottom: "0.75rem",
+              padding: "1rem",
+              border: "2px solid #d6bfa8",
+              borderRadius: "0.5rem",
+              backgroundColor: "#ffffff",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+              animation: `slideInUp 0.6s ease-out ${0.25 + index * 0.05}s backwards`,
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              cursor: "pointer"
+            }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(122, 31, 61, 0.2)";
+                e.currentTarget.style.borderColor = "#7a1f3d";
+                e.currentTarget.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.05)";
+                e.currentTarget.style.borderColor = "#d6bfa8";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              <p style={{
+                fontWeight: "600",
+                color: "#7a1f3d",
+                fontSize: "1.1rem"
+              }}>
+                ₹{order.totalAmount} - <span style={{ color: "#b88917" }}>{order.status}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

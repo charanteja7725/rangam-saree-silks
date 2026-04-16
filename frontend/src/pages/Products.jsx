@@ -7,6 +7,7 @@ export default function Products() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOrder, setSortOrder] = useState("default");
+  const [hoveredProduct, setHoveredProduct] = useState(null);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/products`)
@@ -38,36 +39,111 @@ export default function Products() {
   });
 
   return (
-    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
+    <div style={{
+      minHeight: "100vh",
+      background: "linear-gradient(135deg, #fffaf5 0%, #f5f0eb 100%)",
+      color: "#2f1b1b",
+      fontFamily: "'Inter', sans-serif"
+    }}>
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="mb-12 text-center">
-          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-[#b88917]">
+      <div style={{
+        margin: "0 auto",
+        maxWidth: "80rem",
+        padding: "2.5rem 1.5rem"
+      }}>
+        <div style={{
+          marginBottom: "2.5rem",
+          textAlign: "center",
+          animation: "fadeIn 0.8s ease-in"
+        }}>
+          <p style={{
+            marginBottom: "0.5rem",
+            fontSize: "0.875rem",
+            textTransform: "uppercase",
+            letterSpacing: "0.3em",
+            color: "#b88917",
+            fontWeight: "600"
+          }}>
             Premium Collection
           </p>
-          <h1 className="text-5xl font-bold text-[#7a1f3d] md:text-6xl">
+          <h1 style={{
+            fontSize: "2.25rem",
+            fontWeight: "bold",
+            color: "#7a1f3d",
+            fontFamily: "'Cormorant Garamond', serif",
+            letterSpacing: "0.02em"
+          }}>
             Our Sarees
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-[#5c4033]">
+          <p style={{
+            margin: "1rem auto 0",
+            maxWidth: "32rem",
+            color: "#5c4033",
+            fontSize: "0.95rem"
+          }}>
             Explore elegant sarees designed for weddings, celebrations, and
             timeless everyday grace.
           </p>
         </div>
 
-        <div className="mb-10 grid grid-cols-1 gap-4 rounded-3xl bg-white p-6 shadow-md md:grid-cols-3">
+        <div style={{
+          marginBottom: "2.5rem",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gap: "1rem",
+          borderRadius: "1.5rem",
+          background: "white",
+          padding: "1.25rem",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
+        }}>
           <input
             type="text"
             placeholder="Search sarees by name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
+            style={{
+              width: "100%",
+              borderRadius: "0.75rem",
+              border: "2px solid #d6bfa8",
+              background: "white",
+              padding: "0.75rem",
+              fontSize: "0.95rem",
+              outline: "none",
+              transition: "all 0.3s ease",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+              cursor: "text"
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = "#7a1f3d";
+              e.target.style.boxShadow = "0 4px 12px rgba(122, 31, 61, 0.15)";
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = "#d6bfa8";
+              e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.05)";
+            }}
           />
 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
+            style={{
+              width: "100%",
+              borderRadius: "0.75rem",
+              border: "2px solid #d6bfa8",
+              background: "white",
+              padding: "0.75rem",
+              fontSize: "0.95rem",
+              outline: "none",
+              cursor: "pointer",
+              transition: "all 0.3s ease"
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = "#7a1f3d";
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = "#d6bfa8";
+            }}
           >
             {categories.map((category, index) => (
               <option key={index} value={category}>
@@ -79,7 +155,23 @@ export default function Products() {
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
+            style={{
+              width: "100%",
+              borderRadius: "0.75rem",
+              border: "2px solid #d6bfa8",
+              background: "white",
+              padding: "0.75rem",
+              fontSize: "0.95rem",
+              outline: "none",
+              cursor: "pointer",
+              transition: "all 0.3s ease"
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = "#7a1f3d";
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = "#d6bfa8";
+            }}
           >
             <option value="default">Sort By</option>
             <option value="lowToHigh">Price: Low to High</option>
@@ -88,45 +180,147 @@ export default function Products() {
         </div>
 
         {sortedProducts.length === 0 ? (
-          <div className="rounded-3xl bg-white p-10 text-center shadow-md">
-            <p className="text-lg text-[#5c4033]">No products found</p>
+          <div style={{
+            borderRadius: "1.5rem",
+            background: "white",
+            padding: "2.5rem",
+            textAlign: "center",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+            animation: "fadeIn 0.8s ease-in"
+          }}>
+            <p style={{
+              fontSize: "1.1rem",
+              color: "#5c4033",
+              fontWeight: "500"
+            }}>No products found</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {sortedProducts.map((p) => (
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+            gap: "2rem"
+          }}>
+            {sortedProducts.map((p, idx) => (
               <div
                 key={p._id}
-                className="overflow-hidden rounded-3xl bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                onMouseEnter={() => setHoveredProduct(p._id)}
+                onMouseLeave={() => setHoveredProduct(null)}
+                style={{
+                  overflow: "hidden",
+                  borderRadius: "1.5rem",
+                  background: "white",
+                  boxShadow: hoveredProduct === p._id
+                    ? "0 20px 40px rgba(122, 31, 61, 0.15)"
+                    : "0 4px 12px rgba(0, 0, 0, 0.08)",
+                  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                  transform: hoveredProduct === p._id ? "translateY(-8px) scale(1.02)" : "translateY(0) scale(1)",
+                  cursor: "pointer",
+                  animation: `slideInUp 0.6s ease-out ${0.1 + idx * 0.05}s backwards`
+                }}
               >
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  className="h-80 w-full object-cover"
-                />
+                <div style={{
+                  position: "relative",
+                  overflow: "hidden",
+                  height: "320px",
+                  background: "#f5f0eb"
+                }}>
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                      objectFit: "cover",
+                      transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+                      transform: hoveredProduct === p._id ? "scale(1.08) rotate(1deg)" : "scale(1) rotate(0deg)"
+                    }}
+                  />
+                  <div style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: "linear-gradient(135deg, rgba(122, 31, 61, 0) 0%, rgba(122, 31, 61, 0.15) 100%)",
+                    opacity: hoveredProduct === p._id ? 1 : 0,
+                    transition: "opacity 0.3s ease"
+                  }} />
+                </div>
 
-                <div className="p-5">
-                  <p className="mb-2 text-sm uppercase tracking-wide text-[#b88917]">
+                <div style={{
+                  padding: "1.25rem"
+                }}>
+                  <p style={{
+                    marginBottom: "0.5rem",
+                    fontSize: "0.875rem",
+                    color: "#b88917",
+                    fontWeight: "600",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em"
+                  }}>
                     {p.category || "Premium Saree"}
                   </p>
 
-                  <h2 className="mb-2 text-2xl font-semibold text-[#4b2e2e]">
+                  <h2 style={{
+                    marginBottom: "0.5rem",
+                    fontSize: "1.1rem",
+                    fontWeight: "600",
+                    color: "#4b2e2e",
+                    fontFamily: "'Cormorant Garamond', serif",
+                    letterSpacing: "0.02em",
+                    lineHeight: "1.4"
+                  }}>
                     {p.name}
                   </h2>
 
-                  <p className="mb-4 text-sm leading-6 text-[#6b4f45]">
-                    Elegant craftsmanship with a graceful finish for special
-                    occasions.
+                  <p style={{
+                    marginBottom: "1rem",
+                    fontSize: "0.9rem",
+                    lineHeight: "1.6",
+                    color: "#6b4f45"
+                  }}>
+                    Elegant craftsmanship with a graceful finish for special occasions.
                   </p>
 
-                  <div className="mb-5 flex items-center justify-between">
-                    <p className="text-xl font-bold text-[#b88917]">
+                  <div style={{
+                    marginBottom: "1rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between"
+                  }}>
+                    <p style={{
+                      fontSize: "1.25rem",
+                      fontWeight: "bold",
+                      color: "#b88917",
+                      fontFamily: "'Cormorant Garamond', serif"
+                    }}>
                       ₹{p.price}
                     </p>
                   </div>
 
                   <Link
                     to={`/product/${p._id}`}
-                    className="block rounded-xl bg-[#7a1f3d] px-4 py-3 text-center font-medium text-white shadow-md transition hover:bg-[#5f1730] hover:shadow-lg"
+                    style={{
+                      display: "block",
+                      borderRadius: "0.75rem",
+                      background: "linear-gradient(135deg, #7a1f3d 0%, #9d2651 100%)",
+                      padding: "0.75rem",
+                      textAlign: "center",
+                      fontWeight: "600",
+                      color: "white",
+                      textDecoration: "none",
+                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      transform: "scale(1)",
+                      boxShadow: "0 4px 12px rgba(122, 31, 61, 0.2)"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.05)";
+                      e.currentTarget.style.boxShadow = "0 8px 20px rgba(122, 31, 61, 0.35)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.boxShadow = "0 4px 12px rgba(122, 31, 61, 0.2)";
+                    }}
                   >
                     View Details
                   </Link>
@@ -136,6 +330,23 @@ export default function Products() {
           </div>
         )}
       </div>
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideInUp {
+          from { 
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to { 
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }
