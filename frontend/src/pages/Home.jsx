@@ -128,7 +128,7 @@ export default function Home() {
           animation: "slideInRight 0.8s ease-out"
         }}>
           <img
-            src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=80"
+            src="https://weaverstory.com/cdn/shop/files/IMG_3763_5ac30645-9313-4a63-ad40-6ca589ca28fc.jpg?v=1739785983"
             alt="Silk Saree"
             style={{
               height: "520px",
