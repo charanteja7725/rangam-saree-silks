@@ -34,47 +34,65 @@ export default function ProductDetails() {
     <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
       <Navbar />
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-10 md:grid-cols-2">
-        <div className="overflow-hidden rounded-2xl bg-white shadow-md">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="h-full w-full object-cover"
-          />
-        </div>
-
-        <div className="rounded-2xl bg-white p-8 shadow-md">
-          <p className="mb-2 text-sm uppercase tracking-[0.25em] text-[#b88917]">
-            Premium Collection
-          </p>
-
-          <h1 className="brand-font text-5xl font-bold text-[#7a1f3d]">
-            {product.name}
-          </h1>
-
-          <p className="mt-4 text-3xl font-bold text-[#b88917]">
-            ₹{product.price}
-          </p>
-
-          <p className="mt-6 leading-7 text-[#5c4033]">
-            {product.description}
-          </p>
-
-          <div className="mt-6 space-y-2 text-[#4b2e2e]">
-            <p>
-              <span className="font-semibold">Category:</span> {product.category}
-            </p>
-            <p>
-              <span className="font-semibold">Stock:</span> {product.stock}
-            </p>
+      <div className="mx-auto max-w-7xl px-6 py-10">
+        <div className="grid items-start gap-10 md:grid-cols-2">
+          <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="h-[520px] w-full object-cover"
+            />
           </div>
 
-          <button
-            onClick={addToCart}
-            className="mt-8 rounded bg-[#7a1f3d] px-6 py-3 text-white transition hover:bg-[#5f1730]"
-          >
-            Add to Cart
-          </button>
+          <div className="rounded-3xl bg-white p-8 shadow-xl">
+            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#b88917]">
+              Premium Collection
+            </p>
+
+            <h1 className="mb-4 text-4xl font-bold text-[#7a1f3d] md:text-5xl">
+              {product.name}
+            </h1>
+
+            <p className="mb-6 text-3xl font-bold text-[#b88917]">
+              ₹{product.price}
+            </p>
+
+            <p className="border-l-4 border-[#b88917] pl-4 leading-7 text-[#5c4033]">
+              {product.description}
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl bg-[#fffaf5] p-4">
+                <p className="text-sm text-[#7a1f3d]">Category</p>
+                <p className="mt-1 font-semibold text-[#2f1b1b]">
+                  {product.category}
+                </p>
+              </div>
+
+              <div className="rounded-2xl bg-[#fffaf5] p-4">
+                <p className="text-sm text-[#7a1f3d]">Stock</p>
+                <p className="mt-1 font-semibold text-[#2f1b1b]">
+                  {product.stock}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              <button
+                onClick={addToCart}
+                className="rounded-xl bg-[#7a1f3d] px-6 py-3 font-medium text-white transition hover:bg-[#5f1730]"
+              >
+                Add to Cart
+              </button>
+
+              <button
+                onClick={() => navigate("/products")}
+                className="rounded-xl border border-[#b88917] px-6 py-3 font-medium text-[#b88917] transition hover:bg-[#b88917] hover:text-white"
+              >
+                Back to Products
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
