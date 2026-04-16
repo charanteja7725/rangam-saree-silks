@@ -7,9 +7,9 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 md:grid-cols-2">
+      <section className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 md:grid-cols-2">
         <div>
-          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-[#b88917]">
+          <p className="mb-4 text-sm uppercase tracking-[0.35em] text-[#b88917]">
             Pure Elegance
           </p>
 
@@ -26,7 +26,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-4">
             <Link
               to="/products"
-              className="rounded-xl bg-[#7a1f3d] px-6 py-3 font-medium text-white transition hover:bg-[#5f1730]"
+              className="rounded-xl bg-[#7a1f3d] px-6 py-3 font-medium text-white shadow-md transition hover:bg-[#5f1730] hover:shadow-lg"
             >
               Shop Collection
             </Link>
@@ -52,31 +52,31 @@ export default function Home() {
       {/* Highlights */}
       <section className="mx-auto max-w-7xl px-6 pb-16">
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-2xl bg-white p-6 shadow-md transition hover:shadow-xl">
-            <h3 className="mb-2 text-xl font-semibold text-[#7a1f3d]">
+          <div className="rounded-3xl bg-white p-6 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
+            <h3 className="mb-3 text-2xl font-semibold text-[#7a1f3d]">
               Premium Quality
             </h3>
-            <p className="text-[#5c4033]">
+            <p className="leading-7 text-[#5c4033]">
               Carefully selected silk sarees with rich texture, elegant finish,
               and luxurious feel.
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-md transition hover:shadow-xl">
-            <h3 className="mb-2 text-xl font-semibold text-[#7a1f3d]">
+          <div className="rounded-3xl bg-white p-6 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
+            <h3 className="mb-3 text-2xl font-semibold text-[#7a1f3d]">
               Timeless Designs
             </h3>
-            <p className="text-[#5c4033]">
+            <p className="leading-7 text-[#5c4033]">
               Traditional craftsmanship blended with modern styling for every
               special occasion.
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-md transition hover:shadow-xl">
-            <h3 className="mb-2 text-xl font-semibold text-[#7a1f3d]">
+          <div className="rounded-3xl bg-white p-6 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
+            <h3 className="mb-3 text-2xl font-semibold text-[#7a1f3d]">
               Trusted Elegance
             </h3>
-            <p className="text-[#5c4033]">
+            <p className="leading-7 text-[#5c4033]">
               A curated collection made to bring confidence, beauty, and grace
               to your wardrobe.
             </p>
@@ -85,22 +85,24 @@ export default function Home() {
       </section>
 
       {/* Featured Banner */}
-      <section className="mx-auto max-w-7xl px-6 pb-16">
-        <div className="rounded-3xl bg-[#7a1f3d] px-8 py-12 text-white shadow-xl md:px-12">
-          <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#f3d27a]">
+      <section className="mx-auto max-w-7xl px-6 pb-20">
+        <div className="rounded-3xl bg-[#7a1f3d] px-8 py-14 text-white shadow-2xl md:px-12">
+          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-[#f3d27a]">
             Exclusive Collection
           </p>
+
           <h2 className="mb-4 text-3xl font-bold md:text-4xl">
             Celebrate Tradition with Luxury
           </h2>
-          <p className="mb-6 max-w-2xl text-white/90">
+
+          <p className="mb-6 max-w-2xl text-base leading-7 text-white/90">
             Explore premium silk sarees perfect for weddings, festive moments,
             and elegant celebrations.
           </p>
 
           <Link
             to="/products"
-            className="inline-block rounded-xl bg-white px-6 py-3 font-medium text-[#7a1f3d] transition hover:bg-gray-100"
+            className="inline-block rounded-xl bg-white px-6 py-3 font-medium text-[#7a1f3d] shadow-md transition hover:bg-gray-100"
           >
             Explore Products
           </Link>

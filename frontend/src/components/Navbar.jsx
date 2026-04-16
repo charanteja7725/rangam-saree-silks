@@ -17,11 +17,13 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-[#7a1f3d] text-white px-8 py-4 flex justify-between items-center shadow-md">
+    <nav className="sticky top-0 z-50 bg-[#7a1f3d]/95 backdrop-blur text-white px-8 py-4 flex justify-between items-center shadow-md">
       
       {/* Logo */}
-      <h1 className="text-2xl font-bold tracking-wide">
-        <Link to="/">RANGAM</Link>
+      <h1 className="text-2xl font-bold tracking-wider">
+        <Link to="/" className="hover:text-[#f3d27a] transition">
+          RANGAM
+        </Link>
       </h1>
 
       {/* Links */}
@@ -54,7 +56,7 @@ export default function Navbar() {
             {/* Logout */}
             <button
               onClick={handleLogout}
-              className="bg-white text-[#7a1f3d] px-4 py-2 rounded-lg hover:bg-gray-100 transition"
+              className="rounded-xl bg-white px-4 py-2 text-[#7a1f3d] font-medium shadow hover:bg-gray-100 transition"
             >
               Logout
             </button>

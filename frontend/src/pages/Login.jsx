@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -15,10 +16,7 @@ export default function Login() {
     if (data.token) {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-
       alert("Login successful");
-
-      // ✅ FIX: force reload so auth state updates
       window.location.href = "/";
     } else {
       alert(data.message || "Login failed");
@@ -26,28 +24,50 @@ export default function Login() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="mb-4 text-2xl font-bold">Login</h1>
+    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
+      <div className="flex min-h-screen items-center justify-center px-6 py-12">
+        <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-xl">
+          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-[#b88917]">
+            Welcome Back
+          </p>
 
-      <input
-        placeholder="Email"
-        className="mb-3 w-full border p-2"
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
+          <h1 className="mb-6 text-4xl font-bold text-[#7a1f3d]">
+            Login
+          </h1>
 
-      <input
-        placeholder="Password"
-        type="password"
-        className="mb-3 w-full border p-2"
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
+          <div className="space-y-4">
+            <input
+              placeholder="Email"
+              className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+            />
 
-      <button
-        onClick={handleLogin}
-        className="rounded bg-[#7a1f3d] px-4 py-2 text-white"
-      >
-        Login
-      </button>
+            <input
+              placeholder="Password"
+              type="password"
+              className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+            />
+
+            <button
+              onClick={handleLogin}
+              className="w-full rounded-xl bg-[#7a1f3d] px-4 py-3 font-medium text-white shadow-md transition hover:bg-[#5f1730] hover:shadow-lg"
+            >
+              Login
+            </button>
+          </div>
+
+          <p className="mt-6 text-sm text-[#5c4033]">
+            Don’t have an account?{" "}
+            <Link
+              to="/register"
+              className="font-medium text-[#b88917] hover:underline"
+            >
+              Register
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

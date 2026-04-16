@@ -19,6 +19,11 @@ export default function Checkout() {
     0
   );
 
+  const totalItems = cart.reduce(
+    (sum, item) => sum + (item.quantity || 1),
+    0
+  );
+
   const loadPayment = async () => {
     try {
       if (!form.address || !form.city || !form.pincode || !form.phone) {
@@ -31,7 +36,6 @@ export default function Checkout() {
         return;
       }
 
-      // 🔹 Create Razorpay order
       const orderRes = await fetch(
         `${import.meta.env.VITE_API_URL}/api/payment/create-order`,
         {
@@ -55,8 +59,6 @@ export default function Checkout() {
         name: "Rangam Saree Silks",
         description: "Order Payment",
         order_id: order.id,
-
-        // ✅ AFTER PAYMENT SUCCESS
         handler: async function () {
           try {
             const token = localStorage.getItem("token");
@@ -67,11 +69,11 @@ export default function Checkout() {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}` // ✅ important
+                  Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify({
                   items: cart,
-                  totalAmount: totalPrice, // ✅ correct field
+                  totalAmount: totalPrice,
                   address: form.address,
                   city: form.city,
                   pincode: form.pincode,
@@ -84,8 +86,8 @@ export default function Checkout() {
 
             if (data.success) {
               alert("Payment successful!");
-              localStorage.removeItem("cart"); // ✅ clear cart
-              navigate("/orders"); // ✅ redirect
+              localStorage.removeItem("cart");
+              navigate("/orders");
             } else {
               alert(data.message || "Order save failed");
             }
@@ -94,11 +96,9 @@ export default function Checkout() {
             alert("Payment succeeded, but saving order failed");
           }
         },
-
         prefill: {
           contact: form.phone
         },
-
         theme: {
           color: "#7a1f3d"
         }
@@ -116,15 +116,23 @@ export default function Checkout() {
     <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
       <Navbar />
 
-      <div className="mx-auto max-w-6xl px-6 py-10">
-        <h1 className="brand-font mb-8 text-4xl font-bold text-[#7a1f3d]">
-          Checkout
-        </h1>
+      <div className="mx-auto max-w-7xl px-6 py-12">
+        <div className="mb-10">
+          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-[#b88917]">
+            Secure Checkout
+          </p>
+          <h1 className="text-5xl font-bold text-[#7a1f3d] md:text-6xl">
+            Checkout
+          </h1>
+        </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
-          {/* Shipping */}
-          <div className="rounded-2xl bg-white p-8 shadow-md">
-            <h2 className="brand-font mb-6 text-3xl font-bold text-[#7a1f3d]">
+        <div className="grid gap-8 lg:grid-cols-2">
+          <div className="rounded-3xl bg-white p-8 shadow-md">
+            <p className="mb-2 text-sm uppercase tracking-[0.3em] text-[#b88917]">
+              Shipping
+            </p>
+
+            <h2 className="mb-6 text-3xl font-bold text-[#7a1f3d]">
               Shipping Details
             </h2>
 
@@ -135,54 +143,60 @@ export default function Checkout() {
                 onChange={(e) =>
                   setForm({ ...form, address: e.target.value })
                 }
-                className="w-full rounded-xl border px-4 py-3"
+                className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
               />
+
               <input
                 placeholder="City"
                 value={form.city}
                 onChange={(e) =>
                   setForm({ ...form, city: e.target.value })
                 }
-                className="w-full rounded-xl border px-4 py-3"
+                className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
               />
+
               <input
                 placeholder="Pincode"
                 value={form.pincode}
                 onChange={(e) =>
                   setForm({ ...form, pincode: e.target.value })
                 }
-                className="w-full rounded-xl border px-4 py-3"
+                className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
               />
+
               <input
                 placeholder="Phone"
                 value={form.phone}
                 onChange={(e) =>
                   setForm({ ...form, phone: e.target.value })
                 }
-                className="w-full rounded-xl border px-4 py-3"
+                className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
               />
             </div>
           </div>
 
-          {/* Summary */}
-          <div className="h-fit rounded-2xl bg-white p-8 shadow-md">
-            <h2 className="brand-font mb-6 text-3xl font-bold text-[#7a1f3d]">
+          <div className="h-fit rounded-3xl bg-white p-8 shadow-md">
+            <p className="mb-2 text-sm uppercase tracking-[0.3em] text-[#b88917]">
+              Summary
+            </p>
+
+            <h2 className="mb-6 text-3xl font-bold text-[#7a1f3d]">
               Order Summary
             </h2>
 
-            <div className="mb-4 flex justify-between">
+            <div className="mb-4 flex items-center justify-between text-[#5c4033]">
               <span>Total Items</span>
-              <span>{cart.length}</span>
+              <span className="font-medium">{totalItems}</span>
             </div>
 
-            <div className="mb-6 flex justify-between text-xl font-bold">
+            <div className="mb-8 flex items-center justify-between border-t border-[#eee2d7] pt-4 text-xl font-bold">
               <span>Total Price</span>
               <span className="text-[#b88917]">₹{totalPrice}</span>
             </div>
 
             <button
               onClick={loadPayment}
-              className="w-full rounded bg-[#7a1f3d] px-4 py-3 text-white"
+              className="w-full rounded-xl bg-[#7a1f3d] px-4 py-3 font-medium text-white shadow-md transition hover:bg-[#5f1730] hover:shadow-lg"
             >
               Pay with Razorpay
             </button>

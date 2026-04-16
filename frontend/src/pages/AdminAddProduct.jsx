@@ -66,22 +66,29 @@ export default function AdminAddProduct() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fffaf5]">
+    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
       <Navbar />
 
-      <div className="mx-auto max-w-2xl px-6 py-10">
-        <h1 className="mb-6 text-3xl font-bold text-[#7a1f3d]">Add Product</h1>
+      <div className="mx-auto max-w-3xl px-6 py-12">
+        <div className="mb-10">
+          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-[#b88917]">
+            Admin Panel
+          </p>
+          <h1 className="text-5xl font-bold text-[#7a1f3d] md:text-6xl">
+            Add Product
+          </h1>
+        </div>
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-4 rounded-2xl bg-white p-6 shadow-md"
+          className="space-y-5 rounded-3xl bg-white p-8 shadow-md"
         >
           <input
             name="name"
             placeholder="Product Name"
             value={form.name}
             onChange={handleChange}
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
             required
           />
 
@@ -91,7 +98,7 @@ export default function AdminAddProduct() {
             placeholder="Price"
             value={form.price}
             onChange={handleChange}
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
             required
           />
 
@@ -100,7 +107,7 @@ export default function AdminAddProduct() {
             placeholder="Category"
             value={form.category}
             onChange={handleChange}
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
             required
           />
 
@@ -110,7 +117,7 @@ export default function AdminAddProduct() {
             placeholder="Stock"
             value={form.stock}
             onChange={handleChange}
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
             required
           />
 
@@ -119,8 +126,8 @@ export default function AdminAddProduct() {
             placeholder="Description"
             value={form.description}
             onChange={handleChange}
-            className="w-full rounded border p-3"
             rows="4"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
             required
           />
 
@@ -128,13 +135,13 @@ export default function AdminAddProduct() {
             type="file"
             accept="image/*"
             onChange={(e) => setImage(e.target.files[0])}
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 file:mr-4 file:rounded-lg file:border-0 file:bg-[#7a1f3d] file:px-4 file:py-2 file:text-white"
             required
           />
 
           <button
             type="submit"
-            className="rounded bg-[#7a1f3d] px-6 py-3 text-white hover:bg-[#5f1730]"
+            className="rounded-xl bg-[#7a1f3d] px-6 py-3 font-medium text-white shadow-md transition hover:bg-[#5f1730] hover:shadow-lg"
           >
             Add Product
           </button>

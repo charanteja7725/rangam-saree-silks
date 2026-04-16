@@ -41,33 +41,33 @@ export default function Products() {
     <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-6 py-10">
-        <div className="mb-10 text-center">
-          <p className="mb-2 text-sm uppercase tracking-[0.3em] text-[#b88917]">
+      <div className="mx-auto max-w-7xl px-6 py-12">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-[#b88917]">
             Premium Collection
           </p>
-          <h1 className="text-4xl font-bold text-[#7a1f3d] md:text-5xl">
+          <h1 className="text-5xl font-bold text-[#7a1f3d] md:text-6xl">
             Our Sarees
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-[#5c4033]">
+          <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-[#5c4033]">
             Explore elegant sarees designed for weddings, celebrations, and
             timeless everyday grace.
           </p>
         </div>
 
-        <div className="mb-10 grid grid-cols-1 gap-4 rounded-2xl bg-white p-5 shadow-md md:grid-cols-3">
+        <div className="mb-10 grid grid-cols-1 gap-4 rounded-3xl bg-white p-6 shadow-md md:grid-cols-3">
           <input
             type="text"
             placeholder="Search sarees by name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-xl border border-[#d6bfa8] bg-white px-4 py-3 outline-none focus:border-[#7a1f3d]"
+            className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
           />
 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full rounded-xl border border-[#d6bfa8] bg-white px-4 py-3 outline-none focus:border-[#7a1f3d]"
+            className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
           >
             {categories.map((category, index) => (
               <option key={index} value={category}>
@@ -79,7 +79,7 @@ export default function Products() {
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="w-full rounded-xl border border-[#d6bfa8] bg-white px-4 py-3 outline-none focus:border-[#7a1f3d]"
+            className="w-full rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
           >
             <option value="default">Sort By</option>
             <option value="lowToHigh">Price: Low to High</option>
@@ -88,7 +88,7 @@ export default function Products() {
         </div>
 
         {sortedProducts.length === 0 ? (
-          <div className="rounded-2xl bg-white p-10 text-center shadow-md">
+          <div className="rounded-3xl bg-white p-10 text-center shadow-md">
             <p className="text-lg text-[#5c4033]">No products found</p>
           </div>
         ) : (
@@ -96,7 +96,7 @@ export default function Products() {
             {sortedProducts.map((p) => (
               <div
                 key={p._id}
-                className="overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="overflow-hidden rounded-3xl bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-2xl"
               >
                 <img
                   src={p.image}
@@ -105,11 +105,11 @@ export default function Products() {
                 />
 
                 <div className="p-5">
-                  <p className="mb-2 text-sm text-[#b88917]">
+                  <p className="mb-2 text-sm uppercase tracking-wide text-[#b88917]">
                     {p.category || "Premium Saree"}
                   </p>
 
-                  <h2 className="mb-2 text-xl font-semibold text-[#4b2e2e]">
+                  <h2 className="mb-2 text-2xl font-semibold text-[#4b2e2e]">
                     {p.name}
                   </h2>
 
@@ -118,7 +118,7 @@ export default function Products() {
                     occasions.
                   </p>
 
-                  <div className="mb-4 flex items-center justify-between">
+                  <div className="mb-5 flex items-center justify-between">
                     <p className="text-xl font-bold text-[#b88917]">
                       ₹{p.price}
                     </p>
@@ -126,7 +126,7 @@ export default function Products() {
 
                   <Link
                     to={`/product/${p._id}`}
-                    className="block rounded-xl bg-[#7a1f3d] px-4 py-3 text-center font-medium text-white transition hover:bg-[#5f1730]"
+                    className="block rounded-xl bg-[#7a1f3d] px-4 py-3 text-center font-medium text-white shadow-md transition hover:bg-[#5f1730] hover:shadow-lg"
                   >
                     View Details
                   </Link>

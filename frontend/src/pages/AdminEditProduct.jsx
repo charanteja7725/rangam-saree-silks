@@ -16,7 +16,6 @@ export default function AdminEditProduct() {
 
   const [image, setImage] = useState(null);
 
-  // 🔹 Fetch existing product
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
       .then((res) => res.json())
@@ -34,12 +33,10 @@ export default function AdminEditProduct() {
       .catch((err) => console.log(err));
   }, [id]);
 
-  // 🔹 Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 🔹 Update product
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -78,24 +75,29 @@ export default function AdminEditProduct() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fffaf5]">
+    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
       <Navbar />
 
-      <div className="mx-auto max-w-2xl px-6 py-10">
-        <h1 className="mb-6 text-3xl font-bold text-[#7a1f3d]">
-          Edit Product
-        </h1>
+      <div className="mx-auto max-w-3xl px-6 py-12">
+        <div className="mb-10">
+          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-[#b88917]">
+            Admin Panel
+          </p>
+          <h1 className="text-5xl font-bold text-[#7a1f3d] md:text-6xl">
+            Edit Product
+          </h1>
+        </div>
 
         <form
           onSubmit={handleUpdate}
-          className="space-y-4 rounded-2xl bg-white p-6 shadow-md"
+          className="space-y-5 rounded-3xl bg-white p-8 shadow-md"
         >
           <input
             name="name"
             value={form.name}
             onChange={handleChange}
             placeholder="Product Name"
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
           />
 
           <input
@@ -103,7 +105,7 @@ export default function AdminEditProduct() {
             value={form.price}
             onChange={handleChange}
             placeholder="Price"
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
           />
 
           <input
@@ -111,7 +113,7 @@ export default function AdminEditProduct() {
             value={form.category}
             onChange={handleChange}
             placeholder="Category"
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
           />
 
           <input
@@ -119,7 +121,7 @@ export default function AdminEditProduct() {
             value={form.stock}
             onChange={handleChange}
             placeholder="Stock"
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
           />
 
           <textarea
@@ -127,20 +129,20 @@ export default function AdminEditProduct() {
             value={form.description}
             onChange={handleChange}
             placeholder="Description"
-            className="w-full rounded border p-3"
             rows="4"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
           />
 
           <input
             type="file"
             accept="image/*"
             onChange={(e) => setImage(e.target.files[0])}
-            className="w-full rounded border p-3"
+            className="w-full rounded-xl border border-[#e7d7c9] px-4 py-3 file:mr-4 file:rounded-lg file:border-0 file:bg-[#7a1f3d] file:px-4 file:py-2 file:text-white"
           />
 
           <button
             type="submit"
-            className="rounded bg-[#7a1f3d] px-6 py-3 text-white hover:bg-[#5f1730]"
+            className="rounded-xl bg-[#7a1f3d] px-6 py-3 font-medium text-white shadow-md transition hover:bg-[#5f1730] hover:shadow-lg"
           >
             Update Product
           </button>
@@ -149,4 +151,3 @@ export default function AdminEditProduct() {
     </div>
   );
 }
-

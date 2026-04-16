@@ -34,9 +34,9 @@ export default function ProductDetails() {
     <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-6 py-10">
-        <div className="grid items-start gap-10 md:grid-cols-2">
-          <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
+      <div className="mx-auto max-w-7xl px-6 py-12">
+        <div className="grid items-start gap-10 lg:grid-cols-2">
+          <div className="overflow-hidden rounded-3xl bg-white shadow-2xl">
             <img
               src={product.image}
               alt={product.name}
@@ -45,7 +45,7 @@ export default function ProductDetails() {
           </div>
 
           <div className="rounded-3xl bg-white p-8 shadow-xl">
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#b88917]">
+            <p className="mb-3 text-sm uppercase tracking-[0.3em] text-[#b88917]">
               Premium Collection
             </p>
 
@@ -57,20 +57,24 @@ export default function ProductDetails() {
               ₹{product.price}
             </p>
 
-            <p className="border-l-4 border-[#b88917] pl-4 leading-7 text-[#5c4033]">
+            <p className="border-l-4 border-[#b88917] pl-4 leading-8 text-[#5c4033]">
               {product.description}
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl bg-[#fffaf5] p-4">
-                <p className="text-sm text-[#7a1f3d]">Category</p>
+                <p className="text-sm uppercase tracking-wide text-[#7a1f3d]">
+                  Category
+                </p>
                 <p className="mt-1 font-semibold text-[#2f1b1b]">
                   {product.category}
                 </p>
               </div>
 
               <div className="rounded-2xl bg-[#fffaf5] p-4">
-                <p className="text-sm text-[#7a1f3d]">Stock</p>
+                <p className="text-sm uppercase tracking-wide text-[#7a1f3d]">
+                  Stock
+                </p>
                 <p className="mt-1 font-semibold text-[#2f1b1b]">
                   {product.stock}
                 </p>
@@ -80,7 +84,7 @@ export default function ProductDetails() {
             <div className="mt-8 flex flex-wrap gap-4">
               <button
                 onClick={addToCart}
-                className="rounded-xl bg-[#7a1f3d] px-6 py-3 font-medium text-white transition hover:bg-[#5f1730]"
+                className="rounded-xl bg-[#7a1f3d] px-6 py-3 font-medium text-white shadow-md transition hover:bg-[#5f1730] hover:shadow-lg"
               >
                 Add to Cart
               </button>

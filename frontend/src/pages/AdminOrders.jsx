@@ -58,43 +58,106 @@ export default function AdminOrders() {
   };
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
       <Navbar />
-      <h1 className="mb-6 text-3xl font-bold">All Orders (Admin)</h1>
 
-      {orders.length === 0 ? (
-        <p>No orders found</p>
-      ) : (
-        orders.map((order) => (
-          <div key={order._id} className="mb-6 rounded border bg-white p-4">
-            <p><b>User:</b> {order.user?.email || order.user}</p>
-            <p><b>Total:</b> ₹{order.totalAmount}</p>
-            <p><b>City:</b> {order.city}</p>
-            <p><b>Status:</b> {order.status}</p>
+      <div className="mx-auto max-w-7xl px-6 py-12">
+        <div className="mb-10">
+          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-[#b88917]">
+            Admin Panel
+          </p>
+          <h1 className="text-5xl font-bold text-[#7a1f3d] md:text-6xl">
+            All Orders
+          </h1>
+        </div>
 
-            <div className="my-3">
-              <select
-                value={order.status}
-                onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                className="rounded border px-2 py-1"
-              >
-                <option value="Pending">Pending</option>
-                <option value="Shipped">Shipped</option>
-                <option value="Delivered">Delivered</option>
-              </select>
-            </div>
-
-            <div className="mt-3">
-              <b>Items:</b>
-              {order.items?.map((item, idx) => (
-                <p key={idx}>
-                  {item.name} (₹{item.price} × {item.quantity})
-                </p>
-              ))}
-            </div>
+        {orders.length === 0 ? (
+          <div className="rounded-3xl bg-white p-10 text-center shadow-md">
+            <p className="text-lg text-[#5c4033]">No orders found</p>
           </div>
-        ))
-      )}
+        ) : (
+          <div className="space-y-8">
+            {orders.map((order, index) => (
+              <div
+                key={order._id}
+                className="rounded-3xl bg-white p-6 shadow-md transition duration-300 hover:shadow-2xl"
+              >
+                <div className="mb-6 flex flex-col gap-4 border-b border-[#eee2d7] pb-4 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.25em] text-[#b88917]">
+                      Order #{index + 1}
+                    </p>
+                    <h2 className="mt-2 text-2xl font-semibold text-[#7a1f3d]">
+                      ₹{order.totalAmount}
+                    </h2>
+                  </div>
+
+                  <div className="grid gap-2 text-sm text-[#5c4033] md:text-right">
+                    <p>
+                      <span className="font-semibold text-[#2f1b1b]">User:</span>{" "}
+                      {order.user?.email || order.user}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[#2f1b1b]">City:</span>{" "}
+                      {order.city}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[#2f1b1b]">Status:</span>{" "}
+                      <span className="font-medium text-[#b88917]">
+                        {order.status}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mb-5">
+                  <select
+                    value={order.status}
+                    onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                    className="rounded-xl border border-[#e7d7c9] bg-white px-4 py-3 outline-none transition focus:border-[#b88917] focus:ring-2 focus:ring-[#f3d27a]"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                  </select>
+                </div>
+
+                <div>
+                  <p className="mb-4 text-lg font-semibold text-[#4b2e2e]">
+                    Items
+                  </p>
+
+                  <div className="space-y-4">
+                    {order.items?.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-4 rounded-2xl bg-[#fffaf5] p-4"
+                      >
+                        {item.image && (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="h-16 w-16 rounded-2xl object-cover"
+                          />
+                        )}
+
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold text-[#4b2e2e]">
+                            {item.name}
+                          </h3>
+                          <p className="text-sm text-[#5c4033]">
+                            ₹{item.price} × {item.quantity}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
