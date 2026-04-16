@@ -10,6 +10,7 @@ export default function AdminAddProduct() {
     stock: ""
   });
   const [image, setImage] = useState(null);
+  const [focusedField, setFocusedField] = useState(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -65,23 +66,75 @@ export default function AdminAddProduct() {
     }
   };
 
+  const inputStyle = (fieldName) => ({
+    width: "100%",
+    borderRadius: "0.375rem",
+    border: focusedField === fieldName ? "2px solid #7a1f3d" : "2px solid #d6bfa8",
+    padding: "0.75rem",
+    fontSize: "1rem",
+    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    boxShadow: focusedField === fieldName ? "0 4px 16px rgba(122, 31, 61, 0.15)" : "0 2px 4px rgba(0, 0, 0, 0.05)",
+    fontFamily: "'Inter', sans-serif",
+    color: "#2f1b1b"
+  });
+
   return (
-    <div className="min-h-screen bg-[#fffaf5]">
+    <div style={{
+      minHeight: "100vh",
+      backgroundColor: "#fffaf5"
+    }}>
+      <style>{`
+        @keyframes slideInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+
       <Navbar />
 
-      <div className="mx-auto max-w-2xl px-6 py-10">
-        <h1 className="mb-6 text-3xl font-bold text-[#7a1f3d]">Add Product</h1>
+      <div style={{
+        margin: "0 auto",
+        maxWidth: "42rem",
+        padding: "2.5rem 1.5rem"
+      }}>
+        <h1 style={{
+          marginBottom: "1.5rem",
+          fontSize: "1.875rem",
+          fontWeight: "bold",
+          color: "#7a1f3d",
+          fontFamily: "'Cormorant Garamond', serif",
+          letterSpacing: "0.02em"
+        }}>
+          Add Product
+        </h1>
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-4 rounded-2xl bg-white p-6 shadow-md"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "1rem",
+            borderRadius: "1rem",
+            backgroundColor: "#ffffff",
+            padding: "1.5rem",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+            animation: "slideInUp 0.6s ease-out backwards"
+          }}
         >
           <input
             name="name"
             placeholder="Product Name"
             value={form.name}
             onChange={handleChange}
-            className="w-full rounded border p-3"
+            onFocus={() => setFocusedField("name")}
+            onBlur={() => setFocusedField(null)}
+            style={inputStyle("name")}
             required
           />
 
@@ -91,7 +144,9 @@ export default function AdminAddProduct() {
             placeholder="Price"
             value={form.price}
             onChange={handleChange}
-            className="w-full rounded border p-3"
+            onFocus={() => setFocusedField("price")}
+            onBlur={() => setFocusedField(null)}
+            style={inputStyle("price")}
             required
           />
 
@@ -100,7 +155,9 @@ export default function AdminAddProduct() {
             placeholder="Category"
             value={form.category}
             onChange={handleChange}
-            className="w-full rounded border p-3"
+            onFocus={() => setFocusedField("category")}
+            onBlur={() => setFocusedField(null)}
+            style={inputStyle("category")}
             required
           />
 
@@ -110,7 +167,9 @@ export default function AdminAddProduct() {
             placeholder="Stock"
             value={form.stock}
             onChange={handleChange}
-            className="w-full rounded border p-3"
+            onFocus={() => setFocusedField("stock")}
+            onBlur={() => setFocusedField(null)}
+            style={inputStyle("stock")}
             required
           />
 
@@ -119,7 +178,13 @@ export default function AdminAddProduct() {
             placeholder="Description"
             value={form.description}
             onChange={handleChange}
-            className="w-full rounded border p-3"
+            onFocus={() => setFocusedField("description")}
+            onBlur={() => setFocusedField(null)}
+            style={{
+              ...inputStyle("description"),
+              minHeight: "6rem",
+              resize: "vertical"
+            }}
             rows="4"
             required
           />
@@ -128,13 +193,36 @@ export default function AdminAddProduct() {
             type="file"
             accept="image/*"
             onChange={(e) => setImage(e.target.files[0])}
-            className="w-full rounded border p-3"
+            onFocus={() => setFocusedField("image")}
+            onBlur={() => setFocusedField(null)}
+            style={inputStyle("image")}
             required
           />
 
           <button
             type="submit"
-            className="rounded bg-[#7a1f3d] px-6 py-3 text-white hover:bg-[#5f1730]"
+            style={{
+              borderRadius: "0.375rem",
+              backgroundColor: "#7a1f3d",
+              padding: "0.75rem 1.5rem",
+              color: "#ffffff",
+              border: "none",
+              fontWeight: "600",
+              fontSize: "1rem",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              cursor: "pointer",
+              marginTop: "0.5rem"
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = "#5f1730";
+              e.target.style.transform = "translateY(-2px)";
+              e.target.style.boxShadow = "0 8px 20px rgba(122, 31, 61, 0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "#7a1f3d";
+              e.target.style.transform = "translateY(0)";
+              e.target.style.boxShadow = "none";
+            }}
           >
             Add Product
           </button>
