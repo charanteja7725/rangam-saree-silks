@@ -38,27 +38,36 @@ export default function Products() {
   });
 
   return (
-    <div className="min-h-screen bg-[#fffaf5]">
+    <div className="min-h-screen bg-[#fffaf5] text-[#2f1b1b]">
       <Navbar />
 
       <div className="mx-auto max-w-7xl px-6 py-10">
-        <h1 className="mb-8 text-4xl font-bold text-[#7a1f3d]">
-          Our Sarees
-        </h1>
+        <div className="mb-10 text-center">
+          <p className="mb-2 text-sm uppercase tracking-[0.3em] text-[#b88917]">
+            Premium Collection
+          </p>
+          <h1 className="text-4xl font-bold text-[#7a1f3d] md:text-5xl">
+            Our Sarees
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-[#5c4033]">
+            Explore elegant sarees designed for weddings, celebrations, and
+            timeless everyday grace.
+          </p>
+        </div>
 
-        <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="mb-10 grid grid-cols-1 gap-4 rounded-2xl bg-white p-5 shadow-md md:grid-cols-3">
           <input
             type="text"
             placeholder="Search sarees by name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-lg border border-[#d6bfa8] bg-white p-3 outline-none focus:border-[#7a1f3d]"
+            className="w-full rounded-xl border border-[#d6bfa8] bg-white px-4 py-3 outline-none focus:border-[#7a1f3d]"
           />
 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full rounded-lg border border-[#d6bfa8] bg-white p-3 outline-none focus:border-[#7a1f3d]"
+            className="w-full rounded-xl border border-[#d6bfa8] bg-white px-4 py-3 outline-none focus:border-[#7a1f3d]"
           >
             {categories.map((category, index) => (
               <option key={index} value={category}>
@@ -70,7 +79,7 @@ export default function Products() {
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="w-full rounded-lg border border-[#d6bfa8] bg-white p-3 outline-none focus:border-[#7a1f3d]"
+            className="w-full rounded-xl border border-[#d6bfa8] bg-white px-4 py-3 outline-none focus:border-[#7a1f3d]"
           >
             <option value="default">Sort By</option>
             <option value="lowToHigh">Price: Low to High</option>
@@ -78,11 +87,13 @@ export default function Products() {
           </select>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
-          {sortedProducts.length === 0 ? (
+        {sortedProducts.length === 0 ? (
+          <div className="rounded-2xl bg-white p-10 text-center shadow-md">
             <p className="text-lg text-[#5c4033]">No products found</p>
-          ) : (
-            sortedProducts.map((p) => (
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {sortedProducts.map((p) => (
               <div
                 key={p._id}
                 className="overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl"
@@ -90,28 +101,40 @@ export default function Products() {
                 <img
                   src={p.image}
                   alt={p.name}
-                  className="h-72 w-full object-cover"
+                  className="h-80 w-full object-cover"
                 />
 
                 <div className="p-5">
+                  <p className="mb-2 text-sm text-[#b88917]">
+                    {p.category || "Premium Saree"}
+                  </p>
+
                   <h2 className="mb-2 text-xl font-semibold text-[#4b2e2e]">
                     {p.name}
                   </h2>
 
-                  <p className="mb-1 text-sm text-gray-600">
-                    Category: {p.category}
+                  <p className="mb-4 text-sm leading-6 text-[#6b4f45]">
+                    Elegant craftsmanship with a graceful finish for special
+                    occasions.
                   </p>
 
-                  <p className="mb-4 text-lg font-bold text-[#b88917]">
-                    ₹{p.price}
-                  </p>
+                  <div className="mb-4 flex items-center justify-between">
+                    <p className="text-xl font-bold text-[#b88917]">
+                      ₹{p.price}
+                    </p>
+                  </div>
 
-                  <Link to={`/product/${p._id}`}>View Details</Link>
+                  <Link
+                    to={`/product/${p._id}`}
+                    className="block rounded-xl bg-[#7a1f3d] px-4 py-3 text-center font-medium text-white transition hover:bg-[#5f1730]"
+                  >
+                    View Details
+                  </Link>
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
