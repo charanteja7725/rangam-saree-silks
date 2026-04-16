@@ -3,9 +3,20 @@ import Footer from "../components/Footer";
 
 export default function MainLayout({ children }) {
   return (
-    <div className="min-h-screen">
+    <div style={{
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column"
+    }}>
       <Navbar />
-      <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
+      <main style={{
+        margin: "0 auto",
+        maxWidth: "80rem",
+        padding: "1.5rem",
+        flex: 1
+      }}>
+        {children}
+      </main>
       <Footer />
     </div>
   );
